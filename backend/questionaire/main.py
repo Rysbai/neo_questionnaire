@@ -3,6 +3,7 @@ from flask_graphql import GraphQLView
 
 from questionaire.configs import Config
 from questionaire.extensions import db, migrate
+from questionaire.schemes.main import schema
 
 
 def create_app():
@@ -25,7 +26,8 @@ def _register_graphql(app):
         '/graphql',
         view_func=GraphQLView.as_view(
             'graphql',
-            schema=None,
-            graphql=True
+            schema=schema,
+            context={'client': ''},
+            graphiql=app.debug
         )
     )

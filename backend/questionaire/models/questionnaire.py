@@ -41,6 +41,7 @@ class Answer(Model, SurrogatePK):
 
 class UserAnswer(Model, SurrogatePK):
     __tablename__ = 'user_answer'
+
     id = db.Column(db.Integer, primary_key=True)
     answer_id = reference_col(Answer.__tablename__, nullable=False)
     user_id = reference_col(User.__tablename__, nullable=False)
