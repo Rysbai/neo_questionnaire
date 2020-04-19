@@ -1,17 +1,21 @@
 import React from 'react'
-import { createStore } from "redux";
-import { Provider } from "react-redux"
+import {createStore, applyMiddleware} from "redux";
+import thunk from "redux-thunk";
+import {Provider} from "react-redux"
 
 import AppRouter from "../routes/AppRouter";
-import reducer from "../reducers/index";
+import {rootReducer} from "../store";
 
-const store = createStore(reducer);
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk)
+);
+
 
 function App() {
   return (
     <Provider store={store}>
       <AppRouter/>
-      Hello World!
     </Provider>
   );
 }

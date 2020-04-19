@@ -1,28 +1,19 @@
 import * as React from "react";
-import {Redirect, Route, Router, Switch} from "react-router-dom";
-import {connect} from "react-redux";
-
+import {Router, Switch, Route} from "react-router-dom";
 import {appHistory} from "../index";
 
-function AppRouter() {
+import {LoginContainer} from "../containers/Login";
 
-    return (
-        <Router history={appHistory}>
-            <main>
-                <Switch>
-                </Switch>
-            </main>
-        </Router>
-    )
+
+export default function AppRouter() {
+
+  return (
+    <Router history={appHistory}>
+      <main>
+        <Switch>
+          <Route exact path="/" component={LoginContainer}/>
+        </Switch>
+      </main>
+    </Router>
+  )
 }
-
-
-const mapStateToProps = (state: any) => ({
-    ...state
-});
-
-
-export default connect(
-    mapStateToProps,
-    {}
-)(AppRouter);
