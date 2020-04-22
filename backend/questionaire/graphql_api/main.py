@@ -1,6 +1,6 @@
 import graphene
 
-from questionaire.schemes.user import User, Authorize
+from questionaire.graphql_api.user import User, Authorize
 
 
 class UserMutations(graphene.ObjectType):

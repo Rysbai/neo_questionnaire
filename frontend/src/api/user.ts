@@ -1,9 +1,5 @@
-import config from "../configs";
-import {GraphQLClient} from "graphql-request";
 import {User} from "./types";
-
-const nonAuthClient = new GraphQLClient(config.GRAPHQL_URL);
-
+import {nonAuthClient} from "./clients";
 
 export async function authUser(name: string): Promise<User> {
   const query = `mutation { 
@@ -18,7 +14,7 @@ export async function authUser(name: string): Promise<User> {
   const response = await nonAuthClient.request(query);
 
   return {
-    id: response.data.data.auth.user.id,
-    name: response.data.data.auth.user.name
+    id: response.auth.user.id,
+    name: response.auth.user.name
   }
 }

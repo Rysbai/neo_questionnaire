@@ -17,7 +17,7 @@ DB_CONFIG = {
 class Config:
     ENV = 'dev'
     DEBUG = (os.getenv('DEBUG', "True") == "True")
-    SECRET_KEY = os.getenv('CONDUIT_SECRET', 'secret-key')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'secret-key')
     APP_DIR = os.path.abspath(os.path.dirname(__file__))
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
     SQLALCHEMY_DATABASE_URI = f'postgres+psycopg2://{DB_CONFIG["DB_USER"]}:{DB_CONFIG["DB_PASSWORD"]}' \

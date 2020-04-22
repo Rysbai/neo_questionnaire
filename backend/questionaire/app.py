@@ -1,9 +1,9 @@
 from flask import Flask
-from flask_graphql import GraphQLView
 
 from questionaire.configs import Config
-from questionaire.extensions import db, migrate
-from questionaire.schemes.main import schema
+from questionaire.extensions import db, migrate, cors
+from questionaire.graphql_api.main import schema
+from questionaire.graphql_api.view import MainGraphQLView
 
 
 def create_app():
@@ -11,20 +11,21 @@ def create_app():
     app.url_map.strict_slashes = False
     app.config.from_object(Config)
 
-    _register_extensions(app)
-    _register_graphql(app)
+    register_extensions(app)
+    register_graphql(app)
     return app
 
 
-def _register_extensions(app):
+def register_extensions(app):
     db.init_app(app)
     migrate.init_app(app, db)
+    cors.init_app(app)
 
 
-def _register_graphql(app):
+def register_graphql(app):
     app.add_url_rule(
         '/graphql',
-        view_func=GraphQLView.as_view(
+        view_func=MainGraphQLView.as_view(
             'graphql',
             schema=schema,
             context={'client': ''},
