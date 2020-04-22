@@ -1,4 +1,11 @@
-import {AUTH_FAIL, AUTH_SUCCESS, AuthActionTypes, AuthState, SET_NAME_VALUE,} from "./types";
+import {
+  AUTH_FAIL,
+  AUTH_SUCCESS,
+  AuthActionTypes,
+  AuthState,
+  GET_LOGGED_USER_SUCCESS,
+  SET_NAME_VALUE,
+} from "./types";
 
 
 const INITIAL_STATE : AuthState = {
@@ -16,6 +23,12 @@ export function authReducer(
   action: AuthActionTypes
 ) {
   switch (action.type) {
+    case GET_LOGGED_USER_SUCCESS:
+      return {
+        ...state,
+        loggedUser: action.user
+      };
+
     case SET_NAME_VALUE:
       return {
         ...state,

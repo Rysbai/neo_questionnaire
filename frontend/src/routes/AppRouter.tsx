@@ -1,8 +1,8 @@
 import * as React from "react";
 import {Router, Switch, Route} from "react-router-dom";
 import {appHistory} from "../index";
+import {IndexContainer} from "../containers/Index";
 
-import {LoginContainer} from "../containers/Login";
 
 
 export default function AppRouter() {
@@ -11,7 +11,7 @@ export default function AppRouter() {
     <Router history={appHistory}>
       <main>
         <Switch>
-          <Route exact path="/" component={LoginContainer}/>
+          <Route exact path="/" component={IndexContainer}/>
         </Switch>
       </main>
     </Router>
