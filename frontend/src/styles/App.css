@@ -1,21 +1,23 @@
 @font-face {
     font-family: 'Nunito';
-    src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-Black.ttf");
-    src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-BlackItalic.ttf");
-    src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-Bold.ttf");
-    src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-BoldItalic.ttf");
-    src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-ExtraBold.ttf");
-    src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-ExtraBoldItalic.ttf");
-    src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-ExtraLight.ttf");
-    src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-ExtraLightItalic.ttf");
-    src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-Italic.ttf");
-    src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-Light.ttf");
-    src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-LightItalic.ttf");
     src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-Regular.ttf");
-    src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-SemiBold.ttf");
-    src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-SemiBoldItalic.ttf");
+    /*src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-Black.ttf");*/
+    /*src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-BlackItalic.ttf");*/
+    /*src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-Bold.ttf");*/
+    /*src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-BoldItalic.ttf");*/
+    /*src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-ExtraBold.ttf");*/
+    /*src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-ExtraBoldItalic.ttf");*/
+    /*src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-ExtraLight.ttf");*/
+    /*src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-ExtraLightItalic.ttf");*/
+    /*src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-Italic.ttf");*/
+    /*src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-Light.ttf");*/
+    /*src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-LightItalic.ttf");*/
+    /*src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-SemiBold.ttf");*/
+    /*src: local('Nunito'), url("./fonts/webFonts/Nunito/Nunito-SemiBoldItalic.ttf");*/
 }
 
 body {
     font-family: Nunito;
+    margin: auto;
+    background-color: #0188d1;
 }
