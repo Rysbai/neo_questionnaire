@@ -1,11 +1,7 @@
-import logging
 import graphene as graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType
 
 from questionaire.models import User as UserORM
-
-# Load logging configuration
-log = logging.getLogger(__name__)
 
 
 class User(SQLAlchemyObjectType):

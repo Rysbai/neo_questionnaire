@@ -1,7 +1,8 @@
+import createReducer from "../utils/base";
+
 import {
   AUTH_FAIL,
   AUTH_SUCCESS,
-  AuthActionTypes,
   AuthState,
   GET_LOGGED_USER_SUCCESS,
   SET_NAME_VALUE,
@@ -18,36 +19,21 @@ const INITIAL_STATE : AuthState = {
 };
 
 
-export function authReducer(
-  state = INITIAL_STATE,
-  action: AuthActionTypes
-) {
-  switch (action.type) {
-    case GET_LOGGED_USER_SUCCESS:
-      return {
-        ...state,
-        loggedUser: action.user
-      };
-
-    case SET_NAME_VALUE:
-      return {
-        ...state,
-        nameValue: action.nameValue
-      };
-
-    case AUTH_SUCCESS:
-      return {
-        ...state,
-        loggedUser: action.user
-      };
-
-    case AUTH_FAIL:
-      return {
-        ...state,
-        authErrorMessage: action.error
-      };
-
-    default:
-      return INITIAL_STATE
-  }
-}
+export const authReducer = createReducer({
+  [GET_LOGGED_USER_SUCCESS]: (state: any, action: any) => ({
+    ...state,
+    loggedUser: action.user
+  }),
+  [SET_NAME_VALUE]: (state: any, action: any) => ({
+    ...state,
+    nameValue: action.nameValue
+  }),
+  [AUTH_SUCCESS]: (state: any, action: any) => ({
+    ...state,
+    loggedUser: action.user
+  }),
+  [AUTH_FAIL]: (state: any, action: any) => ({
+    ...state,
+    authErrorMessage: action.error
+  })
+}, INITIAL_STATE);

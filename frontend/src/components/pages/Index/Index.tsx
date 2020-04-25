@@ -1,12 +1,19 @@
 import React from "react";
 import {IndexPropsFromRedux} from "../../../containers/Index";
 import MainNavbar from "../../navs/MainNavbar/MainNavbar";
-import {Button, Card, CardContent, Container, Grid, IconButton, Typography} from "@material-ui/core";
-import {Add} from "@material-ui/icons";
+import {Button, Card, CardContent, Container, Grid, Typography} from "@material-ui/core";
+import SurveyForm from "../../forms/SurveyForm/SurveyForm";
+import {makeStyles} from "@material-ui/core/styles";
 
+
+const useStyles = makeStyles((theme) => ({
+  miniSection: {
+    marginTop: theme.spacing(1)
+  }
+}));
 
 export default function (props: IndexPropsFromRedux) {
-
+  const classes = useStyles();
   return (
     <div>
       <MainNavbar loggedUser={props.loggedUser}/>
@@ -26,17 +33,17 @@ export default function (props: IndexPropsFromRedux) {
           <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
             <Card>
               <CardContent>
-                <Grid container justify="space-between" alignItems="center">
-                  <Grid item>
-                    <Typography variant="h6">Мои опросы</Typography>
-                  </Grid>
-                  <Grid item>
-                    <Button variant="contained" size="small" color="secondary">Создать новый</Button>
-                  </Grid>
-                </Grid>
-                <Grid container>
-                  <Typography>У вас нету опросов</Typography>
-                </Grid>
+              <Typography variant="h6">Мои опросы</Typography>
+                <Card variant="outlined" className={classes.miniSection}>
+                  <CardContent>
+                  <SurveyForm
+                    {...props.createSurvey}
+                    onSubmit={props.actions.createSurvey}
+                    setSurveyFieldValue={props.actions.setSurveyFieldValue}
+                    onCancel={() => console.log('cancel')}
+                    />
+                  </CardContent>
+                </Card>
               </CardContent>
             </Card>
           </Grid>

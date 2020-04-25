@@ -1,6 +1,6 @@
 import React from "react";
 import {PropsFromRedux} from "../../containers/Auth";
-import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography} from "@material-ui/core";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 
 
@@ -19,7 +19,7 @@ export default function (props: PropsFromRedux) {
   }, []);
 
   return (
-      <Dialog open={props.loggedUser.id.length <= 0}>
+      <Dialog open={!props.loggedUser.id}>
         <DialogTitle id="simple-dialog-title">Введите свое имя чтобы продолжить</DialogTitle>
         <DialogContent>
           <TextField

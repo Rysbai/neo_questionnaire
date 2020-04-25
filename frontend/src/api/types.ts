@@ -1,4 +1,13 @@
 export interface User {
-  id: string,
+  id: string | number | null,
   name: string
+}
+
+export interface Survey {
+  id: string | number | null,
+  title: string,
+  description: string,
+  isAnonymous: boolean,
+  startAt: string | Date,
+  endAt: string | Date,
 }

@@ -11,6 +11,7 @@ class Questionnaire(Model, SurrogatePK):
     id = db.Column(db.Integer, primary_key=True)
     owner_id = reference_col(User.__tablename__, nullable=False)
     title = db.Column(db.String)
+    description = db.Column(db.String)
     is_anonymous = db.Column(db.Boolean)
     start_at = db.Column(db.DateTime)
     end_at = db.Column(db.DateTime)
