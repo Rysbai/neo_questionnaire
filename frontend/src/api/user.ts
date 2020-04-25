@@ -1,20 +1,21 @@
-import {User} from "./types";
 import {nonAuthClient} from "./clients";
+import {UserWithToken} from "./types";
 
-export async function authUser(name: string): Promise<User> {
+
+export async function authUser(name: string): Promise<UserWithToken> {
   const query = `mutation { 
         auth(name: "${name}") 
             { 
                 message, 
+                token,
                 user 
-                    { id name} 
+                    { id, name} 
             }
         }`;
 
   const response = await nonAuthClient.request(query);
 
   return {
-    id: response.auth.user.id,
-    name: response.auth.user.name
+    ...response.auth
   }
 }

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import relationship
-from questionaire.extensions import db
+from survey.extensions import db
 
 
 class SurrogatePK(object):

@@ -1,5 +1,5 @@
-from questionaire.extensions import db
-from questionaire.models.utils import Model, SurrogatePK
+from survey.extensions import db
+from survey.models.utils import Model, SurrogatePK
 
 
 class User(Model, SurrogatePK):

@@ -1,7 +1,8 @@
 import graphene as graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType
 
-from questionaire.models import User as UserORM
+from survey.models import User as UserORM
+from survey.services.auth import Auth
 
 
 class User(SQLAlchemyObjectType):
@@ -18,6 +19,7 @@ class Authorize(graphene.Mutation):
 
     user = graphene.Field(lambda: User)
     message = graphene.String()
+    token = graphene.String()
 
     def resolve_user(parent, info, *args, **kwargs):
         user = parent.user
@@ -26,4 +28,5 @@ class Authorize(graphene.Mutation):
     def mutate(self, info, name):
         new_user = UserORM.create(name=name)
         user = User(id=new_user.id, name=name)
-        return Authorize(message="ok", user=user)
+        token = Auth.create_token(new_user.id)
+        return Authorize(user=user, token=token, message="ok")

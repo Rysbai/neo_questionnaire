@@ -1,3 +1,4 @@
 export const lsKeys = {
-  loggedUser: "loggedUser"
+  loggedUser: "loggedUser",
+  token: "token"
 };

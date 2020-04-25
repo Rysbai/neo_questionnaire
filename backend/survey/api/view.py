@@ -1,6 +1,6 @@
 from flask_graphql import GraphQLView
 
-from questionaire.services.decorators import solve_options
+from survey.services.decorators import solve_options
 
 
 class MainGraphQLView(GraphQLView):

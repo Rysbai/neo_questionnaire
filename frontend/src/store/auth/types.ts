@@ -8,32 +8,35 @@ export const GET_LOGGED_USER_SUCCESS = "AUTH/GET_LOGGED_USER_SUCCESS";
 
 export interface AuthState {
   loggedUser: User,
+  token: string,
   nameValue: string,
   authErrorMessage: string
 }
 
 
-interface getLoggedUserSuccess {
+export interface GetLoggedUserSuccess {
   type: typeof GET_LOGGED_USER_SUCCESS,
-  user: User
+  loggedUser: User,
+  token: string
 }
 
 
-interface SetNameValueAction {
+export interface SetNameValueAction {
   type: typeof SET_NAME_VALUE,
   nameValue: string
 }
 
 
-interface AuthSuccess {
+export interface AuthSuccess {
   type: typeof AUTH_SUCCESS,
-  user: User,
+  loggedUser: User,
+  token: string
 }
 
-interface AuthFail {
+export interface AuthFail {
   type: typeof AUTH_FAIL,
   error: string
 }
 
 
-export type AuthActionTypes = AuthSuccess | AuthFail | SetNameValueAction | getLoggedUserSuccess
+export type AuthActionTypes = AuthSuccess | AuthFail | SetNameValueAction | GetLoggedUserSuccess

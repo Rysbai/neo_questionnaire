@@ -1,7 +1,7 @@
 import graphene
 
-from questionaire.graphql_api.survey import CreateSurvey
-from questionaire.graphql_api.user import User, Authorize
+from survey.api.survey import CreateSurvey
+from survey.api.user import User, Authorize
 
 
 class UserMutations(graphene.ObjectType):

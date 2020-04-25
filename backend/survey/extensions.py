@@ -26,7 +26,7 @@ class CustomModel(Model):
 
 
 db = SQLAlchemy(model_class=CustomModel)
-from questionaire import models as _models
+from survey import models as _models
 
 
 migrate = Migrate()

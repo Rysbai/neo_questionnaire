@@ -1,6 +1,5 @@
 import {AUTH_FAIL, AUTH_SUCCESS, AuthActionTypes, GET_LOGGED_USER_SUCCESS, SET_NAME_VALUE} from "./types";
 import {authUser} from "../../api/user";
-import {User} from "../../api/types";
 import {lsKeys} from "../constants";
 
 
@@ -17,12 +16,14 @@ export const auth = () => (dispatch: any, getState: any) => {
   const {nameValue} = state.auth;
 
   authUser(nameValue)
-    .then((user: User) => {
+    .then(({user, token}) => {
       localStorage.setItem(lsKeys.loggedUser, JSON.stringify(user));
+      localStorage.setItem(lsKeys.token, token);
 
       dispatch({
         type: AUTH_SUCCESS,
-        user
+        loggedUser: user,
+        token
       })
     })
     .catch(() => {
@@ -36,11 +37,13 @@ export const auth = () => (dispatch: any, getState: any) => {
 
 export const getLoggedUser = () => (dispatch: any) => {
   const loggedUser = localStorage.getItem(lsKeys.loggedUser);
+  const token = localStorage.getItem(lsKeys.token);
 
   if (loggedUser){
     dispatch({
       type: GET_LOGGED_USER_SUCCESS,
-      user: JSON.parse(loggedUser)
+      loggedUser: JSON.parse(loggedUser),
+      token
     })
   }
 };

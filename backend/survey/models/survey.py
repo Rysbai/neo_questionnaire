@@ -1,8 +1,8 @@
 from sqlalchemy.orm import backref
 
-from questionaire.extensions import db
-from questionaire.models.user import User
-from questionaire.models.utils import Model, SurrogatePK, reference_col, relationship
+from survey.extensions import db
+from survey.models.user import User
+from survey.models.utils import Model, SurrogatePK, reference_col, relationship
 
 
 class Questionnaire(Model, SurrogatePK):

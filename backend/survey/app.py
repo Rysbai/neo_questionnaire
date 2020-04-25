@@ -1,9 +1,9 @@
 from flask import Flask
 
-from questionaire.configs import Config
-from questionaire.extensions import db, migrate, cors
-from questionaire.graphql_api.main import schema
-from questionaire.graphql_api.view import MainGraphQLView
+from survey.configs import Config
+from survey.extensions import db, migrate, cors
+from survey.api.main import schema
+from survey.api.view import MainGraphQLView
 
 
 def create_app():

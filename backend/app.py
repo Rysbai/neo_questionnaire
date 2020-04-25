@@ -1,4 +1,4 @@
-from questionaire.app import create_app
+from survey.app import create_app
 
 
 app = create_app()

@@ -1,7 +1,14 @@
 export interface User {
   id: string | number | null,
-  name: string
+  name: string,
 }
+
+
+export interface UserWithToken {
+  user: User,
+  token: string
+}
+
 
 export interface Survey {
   id: string | number | null,

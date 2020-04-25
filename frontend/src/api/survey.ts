@@ -1,10 +1,10 @@
 import {Survey} from "./types";
 import {authClient} from "./clients";
 
-export async function createSurvey(survey: Survey) : Promise<Survey> {
+export async function createSurvey(survey: Survey, token: string) : Promise<Survey> {
   const query = `
-    mutation CreateSurvey($title: String!, $description: String!, $isAnonymous: Boolean!, $startAt: DateTime! $endAt: DateTime!) {
-      createSurvey(title: $title, description: $description, isAnonymous: $isAnonymous, startAt: $startAt, endAt: $endAt){
+    mutation CreateSurvey($token: String! $title: String!, $description: String!, $isAnonymous: Boolean!, $startAt: DateTime! $endAt: DateTime!) {
+      createSurvey(token: $token, title: $title, description: $description, isAnonymous: $isAnonymous, startAt: $startAt, endAt: $endAt){
         message,
         survey {
           id
@@ -18,9 +18,10 @@ export async function createSurvey(survey: Survey) : Promise<Survey> {
     }
   `;
 
-  const response = await authClient.request(query, survey);
+  console.log({...survey, token: token});
+  const response = await authClient.request(query, {...survey, token: token});
 
   return {
-    ...response.createSurvey
+    ...response.createSurvey.survey
   }
 }
