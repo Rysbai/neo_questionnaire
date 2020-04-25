@@ -5,7 +5,6 @@ import {appHistory} from "../../../../index";
 
 
 export const createSurvey = () => (dispatch: any, getState: any) : void => {
-  console.log('im here')
   const state : RootState = getState();
   const {title, description, isAnonymous, startAt, endAt} = state.createSurvey;
 

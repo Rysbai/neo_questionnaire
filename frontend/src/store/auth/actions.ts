@@ -25,8 +25,7 @@ export const auth = () => (dispatch: any, getState: any) => {
         user
       })
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(() => {
       dispatch({
         type: AUTH_FAIL,
         error: "Уупс! Что-то пошло не так."
