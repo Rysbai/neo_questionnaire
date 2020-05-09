@@ -1,7 +1,7 @@
 import graphene
 from graphql import GraphQLError
 
-from survey.models.survey import Questionnaire
+from survey.models.survey import Survey as SurveyORM
 from survey.api.survey import CreateSurvey, Survey, EditSurvey
 from survey.api.user import User, Authorize
 from survey.services.auth import auth_required
@@ -19,7 +19,7 @@ class Query(graphene.ObjectType):
 
     @auth_required
     def resolve_survey(self, info, id, *args, **kwargs):
-        survey = Questionnaire.get_by_id(id)
+        survey = SurveyORM.get_by_id(id)
 
         if not survey:
             raise GraphQLError("survey.does.not.exist")

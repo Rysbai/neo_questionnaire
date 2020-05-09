@@ -5,8 +5,8 @@ from survey.models.user import User
 from survey.models.utils import Model, SurrogatePK, reference_col, relationship
 
 
-class Questionnaire(Model, SurrogatePK):
-    __tablename__ = 'questionnaire'
+class Survey(Model, SurrogatePK):
+    __tablename__ = 'survey'
 
     id = db.Column(db.Integer, primary_key=True)
     owner_id = reference_col(User.__tablename__, nullable=False)
@@ -20,8 +20,8 @@ class Question(Model, SurrogatePK):
     __tablename__ = 'question'
 
     id = db.Column(db.Integer, primary_key=True)
-    questionnaire_id = reference_col(Questionnaire.__tablename__, nullable=False)
-    questionnaire = relationship(Questionnaire,
+    survey_id = reference_col(Survey.__tablename__, nullable=False)
+    survey = relationship(Survey,
                                  backref=backref('questions', uselist=True, cascade='delete,all')
                                  )
     payload = db.Column(db.String)

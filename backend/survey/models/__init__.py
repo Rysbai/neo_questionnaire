@@ -1,2 +1,2 @@
 from survey.models.user import User
-from survey.models.survey import Questionnaire, Question, Answer, UserAnswer
+from survey.models.survey import Survey, Question, Answer, UserAnswer

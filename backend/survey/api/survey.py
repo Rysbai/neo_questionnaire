@@ -2,13 +2,13 @@ import graphene as graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from graphql import GraphQLError
 
-from survey.models.survey import Questionnaire
+from survey.models.survey import Survey as SurveyORM
 from survey.services.auth import auth_required
 
 
 class Survey(SQLAlchemyObjectType):
     class Meta:
-        model = Questionnaire
+        model = SurveyORM
 
     def resolve_id(parent, info):
         return parent.id
@@ -26,7 +26,7 @@ class CreateSurvey(graphene.Mutation):
 
     @auth_required
     def mutate(self, info, logged_user_id, title, description, is_anonymous, *args, **kwargs):
-        new_survey = Questionnaire.create(
+        new_survey = SurveyORM.create(
             owner_id=logged_user_id,
             title=title,
             description=description,
@@ -58,7 +58,7 @@ class EditSurvey(graphene.Mutation):
 
     @auth_required
     def mutate(self, info, logged_user_id, survey_id, **kwargs):
-        survey = Questionnaire.get_by_id(survey_id)
+        survey = SurveyORM.get_by_id(survey_id)
 
         if not survey:
             raise GraphQLError("survey.does.notExist")

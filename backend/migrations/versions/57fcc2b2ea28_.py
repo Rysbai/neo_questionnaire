@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: df2e7a9cef2e
+Revision ID: 57fcc2b2ea28
 Revises: 
-Create Date: 2020-04-17 13:26:52.464427
+Create Date: 2020-05-09 14:13:12.442994
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'df2e7a9cef2e'
+revision = '57fcc2b2ea28'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,22 +23,22 @@ def upgrade():
     sa.Column('name', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('questionnaire',
+    op.create_table('survey',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('owner_id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(), nullable=True),
+    sa.Column('description', sa.String(), nullable=True),
     sa.Column('is_anonymous', sa.Boolean(), nullable=True),
-    sa.Column('start_at', sa.DateTime(), nullable=True),
-    sa.Column('end_at', sa.DateTime(), nullable=True),
+    sa.Column('is_actual', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['owner_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('question',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('questionnaire_id', sa.Integer(), nullable=False),
+    sa.Column('survey_id', sa.Integer(), nullable=False),
     sa.Column('payload', sa.String(), nullable=True),
     sa.Column('allow_multiple_answer', sa.Boolean(), nullable=True),
-    sa.ForeignKeyConstraint(['questionnaire_id'], ['questionnaire.id'], ),
+    sa.ForeignKeyConstraint(['survey_id'], ['survey.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('answer',
@@ -65,6 +65,6 @@ def downgrade():
     op.drop_table('user_answer')
     op.drop_table('answer')
     op.drop_table('question')
-    op.drop_table('questionnaire')
+    op.drop_table('survey')
     op.drop_table('user')
     # ### end Alembic commands ###
