@@ -6,11 +6,11 @@ import {appHistory} from "../../../../index";
 
 export const createSurvey = () => (dispatch: any, getState: any) : void => {
   const state : RootState = getState();
-  const {title, description, isAnonymous, startAt, endAt} = state.createSurvey;
+  const {title, description, isAnonymous, isActual} = state.createSurvey;
   const {token} = state.auth;
 
-  gqlCreateSurvey({id: null, title, description, isAnonymous, startAt, endAt}, token)
-    .then(survey => {
+  gqlCreateSurvey({id: null, title, description, isAnonymous, isActual}, token)
+    .then((survey) => {
       dispatch({
         type: RESET_STATE
       });

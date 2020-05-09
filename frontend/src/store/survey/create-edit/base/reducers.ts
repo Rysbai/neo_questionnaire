@@ -1,12 +1,12 @@
 import {
-  BaseCreateEditSurveyState, CreateOrEditSurveyState,
   DESCRIPTION,
-  END_AT,
   IS_ANONYMOUS,
   SET_FIELD_VALUE,
+  TITLE,
+
+  BaseCreateEditSurveyState,
+  CreateOrEditSurveyState,
   SetFieldValueAction,
-  START_AT,
-  TITLE
 } from "./types";
 
 
@@ -15,13 +15,10 @@ export const BASE_INITIAL_STATE : BaseCreateEditSurveyState = {
   title: "",
   description: "",
   isAnonymous: true,
-  startAt: new Date(),
-  endAt: new Date(),
-
+  isActual: false,
   titleError: "",
   descriptionError: "",
-  startAtError: "",
-  endAtError: ""
+  changesSaved: true
 };
 
 
@@ -30,18 +27,25 @@ export function getBaseCreateEditSurveyReducers(typePrefix: string){
 
   return {
     [getAction(SET_FIELD_VALUE + TITLE)]:
-      (state: CreateOrEditSurveyState, action: SetFieldValueAction) => ({...state, title: action.value}),
+      (state: CreateOrEditSurveyState, action: SetFieldValueAction) => ({
+        ...state,
+        title: action.value,
+        changesSaved: false
+      }),
 
     [getAction(SET_FIELD_VALUE + DESCRIPTION)]:
-      (state: CreateOrEditSurveyState, action: SetFieldValueAction) => ({...state, description: action.value}),
+      (state: CreateOrEditSurveyState, action: SetFieldValueAction) => ({
+        ...state,
+        description: action.value,
+        changesSaved: false
+      }),
 
     [getAction(SET_FIELD_VALUE + IS_ANONYMOUS)]:
-      (state: CreateOrEditSurveyState, action: SetFieldValueAction) => ({...state, isAnonymous: action.value}),
+      (state: CreateOrEditSurveyState, action: SetFieldValueAction) => ({
+        ...state,
+        isAnonymous: action.value,
+        changesSaved: false
+      }),
 
-    [getAction(SET_FIELD_VALUE + START_AT)]:
-      (state: CreateOrEditSurveyState, action: SetFieldValueAction) => ({...state, startAt: action.value}),
-
-    [getAction(SET_FIELD_VALUE + END_AT)]:
-      (state: CreateOrEditSurveyState, action: SetFieldValueAction) => ({...state, endAt: action.value}),
   }
 }

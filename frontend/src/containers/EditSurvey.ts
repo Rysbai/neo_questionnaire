@@ -1,28 +1,29 @@
+import EditSurvey from "../components/pages/EditSurvey";
 import {bindActionCreators} from "redux";
 import {connect as reduxConnect, ConnectedProps} from "react-redux";
 import {RootState} from "../store";
-import Index from "../components/pages/Index";
-import {createSurvey} from "../store/survey/create-edit/create/actions";
+import {retrieveSurvey, saveChanges} from "../store/survey/create-edit/edit/actions";
 import getCreateEditSurveyBaseActions from "../store/survey/create-edit/base/actions";
-import {CREATE_SURVEY_ACTION_TYPE_PREFIX} from "../store/survey/create-edit/create/types";
+import {EDIT_SURVEY_TYPE_PREFIX} from "../store/survey/create-edit/edit/types";
 
 
 const mapStateToProps = (state: RootState) => ({
   ...state.auth,
-  createSurvey: state.createSurvey
+  ...state.editSurvey
 });
 
 
 const mapDispatchToProps = (dispatch: any) => ({
   actions: bindActionCreators({
-    ...getCreateEditSurveyBaseActions(CREATE_SURVEY_ACTION_TYPE_PREFIX),
-    createSurvey
+    ...getCreateEditSurveyBaseActions(EDIT_SURVEY_TYPE_PREFIX),
+    saveChanges,
+    retrieveSurvey
   }, dispatch)
 });
 
 
 const connector = reduxConnect(mapStateToProps, mapDispatchToProps);
 
-export type IndexPropsFromRedux = ConnectedProps<typeof connector>
+export type PropsFromRedux = ConnectedProps<typeof connector>
 
-export const IndexContainer = connector(Index);
+export const EditSurveyContainer = connector(EditSurvey);

@@ -13,8 +13,7 @@ class Questionnaire(Model, SurrogatePK):
     title = db.Column(db.String)
     description = db.Column(db.String)
     is_anonymous = db.Column(db.Boolean)
-    start_at = db.Column(db.DateTime)
-    end_at = db.Column(db.DateTime)
+    is_actual = db.Column(db.Boolean, default=True)
 
 
 class Question(Model, SurrogatePK):

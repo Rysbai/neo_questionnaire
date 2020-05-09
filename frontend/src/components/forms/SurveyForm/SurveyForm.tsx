@@ -2,7 +2,6 @@ import React from "react";
 import {Box, Button, Checkbox, FormControlLabel, TextField} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Survey} from "../../../api/types";
-import {DateTimePicker} from "@material-ui/pickers";
 
 
 interface SurveyFormProps extends Survey {
@@ -10,6 +9,7 @@ interface SurveyFormProps extends Survey {
   descriptionError: string,
 
   setSurveyFieldValue: any,
+  isEdit: boolean,
   onSubmit: any,
   onCancel: any
 }
@@ -42,6 +42,7 @@ export default function (props: SurveyFormProps) {
           error={!!props.titleError}
           helperText={props.titleError}
           onChange={onFieldValueChange}
+          onBlur={props.isEdit && props.onSubmit}
         />
       </Box>
       <Box className={classes.miniSection}>
@@ -54,29 +55,8 @@ export default function (props: SurveyFormProps) {
           error={!!props.descriptionError}
           helperText={props.descriptionError}
           value={props.description}
+          onBlur={props.isEdit &&  props.onSubmit}
           onChange={onFieldValueChange}
-        />
-      </Box>
-      <Box className={classes.miniSection}>
-        <DateTimePicker
-          autoOk
-          ampm={false}
-          disableFuture
-          value={props.startAt}
-          name="startAt"
-          onChange={(value) => props.setSurveyFieldValue('startAt', value)}
-          label="Начало опроса"
-        />
-      </Box>
-      <Box className={classes.miniSection}>
-        <DateTimePicker
-          autoOk
-          ampm={false}
-          disablePast
-          value={props.endAt}
-          name="endAt"
-          onChange={(value) => props.setSurveyFieldValue('endAt', value)}
-          label="Конец опроса"
         />
       </Box>
       <Box className={classes.miniSection}>
@@ -86,20 +66,23 @@ export default function (props: SurveyFormProps) {
               checked={props.isAnonymous}
               onChange={({target}) => props.setSurveyFieldValue('isAnonymous', target.checked)}
               name="isAnonymous"
+              onBlur={props.isEdit && props.onSubmit}
               color="primary"
             />
           }
           label="Анонимный опросник"
         />
       </Box>
-      <Box className={classes.miniSection}>
-        <Button
-          className={classes.miniSection}
-          variant="contained"
-          color="secondary"
-          onClick={props.onSubmit}
-        >Создать новый</Button>
-      </Box>
+        {!props.isEdit && (
+            <Box className={classes.miniSection}>
+              <Button
+              className={classes.miniSection}
+              variant="contained"
+              color="secondary"
+              onClick={props.onSubmit}
+            >Далее</Button>
+          </Box>
+        )}
     </div>
   )
 }

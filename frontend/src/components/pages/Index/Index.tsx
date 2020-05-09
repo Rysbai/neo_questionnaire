@@ -33,13 +33,13 @@ export default function (props: IndexPropsFromRedux) {
           <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
             <Card>
               <CardContent>
-              <Typography variant="h6">Мои опросы</Typography>
+              <Typography variant="h6">Создать новый</Typography>
                 <Card variant="outlined" className={classes.miniSection}>
                   <CardContent>
                   <SurveyForm
                     {...props.createSurvey}
-                    onSubmit={props.actions.createSurvey}
                     setSurveyFieldValue={props.actions.setSurveyFieldValue}
+                    onSubmit={props.actions.createSurvey}
                     onCancel={() => console.log('cancel')}
                     />
                   </CardContent>
@@ -52,7 +52,7 @@ export default function (props: IndexPropsFromRedux) {
               <CardContent>
                 <Grid container justify="space-between" alignItems="center">
                   <Grid item>
-                    <Typography variant="h6">Недавно участвовал</Typography>
+                    <Typography variant="h6">Пройти опросник</Typography>
                   </Grid>
                   <Grid item>
                     <Button variant="contained" size="small" color="secondary">Пройти опросник</Button>

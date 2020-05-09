@@ -1,9 +1,8 @@
-from base64 import b64decode
-
 import jwt
 from graphql import GraphQLError
 
 from survey.configs import Config
+from survey.models import User
 
 
 class Auth:
@@ -20,11 +19,16 @@ class Auth:
         except jwt.exceptions.InvalidTokenError:
             raise GraphQLError('auth.failed')
 
-        logged_user_id = payload.get('id', None)
-        if not logged_user_id:
+        user_id = payload.get('id', None)
+
+        if not user_id:
             raise GraphQLError('auth.failed')
 
-        return logged_user_id
+        user = User.get_by_id(user_id)
+        if not user:
+            raise GraphQLError('auth.failed')
+
+        return user_id
 
 
 def auth_required(func):

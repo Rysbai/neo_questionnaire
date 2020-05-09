@@ -1,9 +1,7 @@
 import {
   SET_FIELD_VALUE,
   DESCRIPTION,
-  END_AT,
   IS_ANONYMOUS,
-  START_AT,
   TITLE,
   FieldNameType
 } from "./types";
@@ -16,8 +14,6 @@ export default function (typePrefix: string) {
     title: getActionType(SET_FIELD_VALUE + TITLE),
     description: getActionType(SET_FIELD_VALUE + DESCRIPTION),
     isAnonymous: getActionType(SET_FIELD_VALUE + IS_ANONYMOUS),
-    startAt: getActionType(SET_FIELD_VALUE + START_AT),
-    endAt: getActionType(SET_FIELD_VALUE + END_AT)
   };
 
 

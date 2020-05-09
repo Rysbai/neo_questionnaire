@@ -15,6 +15,5 @@ export interface Survey {
   title: string,
   description: string,
   isAnonymous: boolean,
-  startAt: string | Date,
-  endAt: string | Date,
+  isActual: boolean
 }
