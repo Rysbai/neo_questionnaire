@@ -1,11 +1,11 @@
 import {Survey} from "./types";
-import {gqClient} from "./clients";
+import {authorizedGqClient} from "./clients";
 
 
-export async function createSurvey(survey: Survey, token: string) : Promise<Survey> {
+export async function createSurvey(survey: Survey) : Promise<Survey> {
   const query = `
-    mutation CreateSurvey($token: String! $title: String!, $description: String!, $isAnonymous: Boolean!) {
-      createSurvey(token: $token, title: $title, description: $description, isAnonymous: $isAnonymous){
+    mutation CreateSurvey($title: String!, $description: String!, $isAnonymous: Boolean!) {
+      createSurvey(title: $title, description: $description, isAnonymous: $isAnonymous){
         message,
         survey {
           id,
@@ -18,7 +18,7 @@ export async function createSurvey(survey: Survey, token: string) : Promise<Surv
     }
   `;
 
-  const response = await gqClient.request(query, {...survey, token: token});
+  const response = await authorizedGqClient.request(query, {...survey});
 
   return {
     ...response.createSurvey.survey
@@ -26,10 +26,10 @@ export async function createSurvey(survey: Survey, token: string) : Promise<Surv
 }
 
 
-export async function retrieveSurvey(surveyId: string, token: string | null) {
+export async function retrieveSurvey(surveyId: string) {
   const query = `
-    query RetrieveUser($surveyId: ID!, $token: String!) {
-      survey(id: $surveyId, token: $token) {
+    query RetrieveUser($surveyId: ID!) {
+      survey(id: $surveyId) {
         id,
         title,
         description,
@@ -51,7 +51,7 @@ export async function retrieveSurvey(surveyId: string, token: string | null) {
     }
   `;
 
-  const response = await gqClient.request(query, {surveyId, token});
+  const response = await authorizedGqClient.request(query, {surveyId});
 
   return {
     ...response.survey
@@ -59,11 +59,10 @@ export async function retrieveSurvey(surveyId: string, token: string | null) {
 }
 
 
-export async function editSurvey(survey: Survey, token: string | null): Promise<string> {
+export async function editSurvey(survey: Survey): Promise<string> {
     const query = `
     mutation EditSurvey(
       $id: ID!, 
-      $token: String!, 
       $title: String!, 
       $description: String!, 
       $isAnonymous: Boolean!, 
@@ -71,7 +70,6 @@ export async function editSurvey(survey: Survey, token: string | null): Promise<
     ){
       editSurvey(
         surveyId: $id, 
-        token: $token, 
         title: $title, 
         description: $description, 
         isAnonymous: $isAnonymous, 
@@ -82,7 +80,7 @@ export async function editSurvey(survey: Survey, token: string | null): Promise<
     }
   `;
 
-  const response = await gqClient.request(query, {...survey, token});
+  const response = await authorizedGqClient.request(query, {...survey});
 
   if (response.editSurvey && response.editSurvey.message) return response.editSurvey.message;
 

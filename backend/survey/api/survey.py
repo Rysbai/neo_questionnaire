@@ -8,7 +8,6 @@ from survey.services.decorators import auth_required
 
 class CreateSurvey(graphene.Mutation):
     class Arguments:
-        token = graphene.String()
         title = graphene.String()
         description = graphene.String()
         is_anonymous = graphene.Boolean(required=False)
@@ -38,7 +37,6 @@ class CreateSurvey(graphene.Mutation):
 
 class EditSurvey(graphene.Mutation):
     class Arguments:
-        token = graphene.String()
         survey_id = graphene.ID()
         title = graphene.String(required=False)
         description = graphene.String(required=False)
@@ -89,7 +87,6 @@ class EditSurvey(graphene.Mutation):
 
 class CreateQuestion(graphene.Mutation):
     class Arguments:
-        token = graphene.String()
         survey_id = graphene.ID()
         payload = graphene.String()
         allow_multiple_answer = graphene.Boolean()

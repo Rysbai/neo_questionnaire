@@ -16,7 +16,7 @@ class Mutations(graphene.ObjectType):
 
 
 class Query(graphene.ObjectType):
-    survey = graphene.Field(Survey, id=graphene.ID(), token=graphene.String())
+    survey = graphene.Field(Survey, id=graphene.ID())
     user = graphene.Field(User)
 
     @auth_required

@@ -18,7 +18,7 @@ def solve_options(f):
 
 def auth_required(func):
     def resolve(*args, **kwargs):
-        token = kwargs.get('token', None)
+        token = request.headers.get('Authorization')
 
         logged_user_id = Auth.get_logged_user_id(token)
 

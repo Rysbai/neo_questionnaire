@@ -15,9 +15,8 @@ import {editSurvey as editSurveyApi} from "../../../../api/survey";
 
 
 export const retrieveSurvey = (surveyId: string) => (dispatch: any): void => {
-  const token = localStorage.getItem(lsKeys.token);
 
-  retrieveSurveyApi(surveyId, token)
+  retrieveSurveyApi(surveyId)
     .then(survey => {
       dispatch({
         type: RETRIEVE_SURVEY_SUCCESS,
@@ -38,13 +37,12 @@ export const saveChanges = (): ThunkAction<void, RootState, unknown, Action<stri
     type: SAVE_CHANGES_IN_PROGRESS
   });
 
-  const token = localStorage.getItem(lsKeys.token);
   const state: RootState = getState();
   const survey = state.editSurvey;
 
   if (survey.changesSaved) return;
 
-  editSurveyApi(survey, token)
+  editSurveyApi(survey)
     .then((): void => {
       dispatch({
         type: SAVE_CHANGES_SUCCESS
@@ -56,4 +54,13 @@ export const saveChanges = (): ThunkAction<void, RootState, unknown, Action<stri
         error: 'Something is wrong!'
       })
     })
+};
+
+
+export const createNewQuestion = (): ThunkAction<void, RootState, unknown, Action<string>> => (dispatch: any, getState: any): void => {
+  dispatch({
+    type: SAVE_CHANGES_IN_PROGRESS
+  });
+
+
 };
