@@ -2,14 +2,16 @@ import graphene
 from graphql import GraphQLError
 
 from survey.models.survey import Survey as SurveyORM
-from survey.api.survey import CreateSurvey, Survey, EditSurvey
-from survey.api.user import User, Authorize
-from survey.services.auth import auth_required
+from survey.api.survey import CreateSurvey, EditSurvey, CreateQuestion
+from survey.api.types import Survey, User
+from survey.api.user import Authorize
+from survey.services.decorators import auth_required
 
 
 class Mutations(graphene.ObjectType):
     auth = Authorize.Field()
     create_survey = CreateSurvey.Field()
+    create_question = CreateQuestion.Field()
     edit_survey = EditSurvey.Field()
 
 

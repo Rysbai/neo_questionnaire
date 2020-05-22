@@ -6,9 +6,10 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1)
   },
 
-  changesIndicator: {
-    "&$buttonDisabled": {
-        color: '#3FB765'
-    }
+  successIndicator: {
+    borderRadius: '3px',
+    border: `1px solid ${theme.palette.success.main}`,
+    padding: theme.spacing(1),
+    color: theme.palette.success.dark
   }
 }));

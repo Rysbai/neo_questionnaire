@@ -1,6 +1,12 @@
 import {lsKeys} from "../../../constants";
 import {retrieveSurvey as retrieveSurveyApi} from "../../../../api/survey";
-import {RETRIEVE_SURVEY_FAIL, RETRIEVE_SURVEY_SUCCESS, SAVE_CHANGES_FAIL, SAVE_CHANGES_SUCCESS} from "./types";
+import {
+  RETRIEVE_SURVEY_FAIL,
+  RETRIEVE_SURVEY_SUCCESS,
+  SAVE_CHANGES_FAIL,
+  SAVE_CHANGES_IN_PROGRESS,
+  SAVE_CHANGES_SUCCESS
+} from "./types";
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "../../../index";
 import {Action} from "redux";
@@ -28,6 +34,10 @@ export const retrieveSurvey = (surveyId: string) => (dispatch: any): void => {
 
 
 export const saveChanges = (): ThunkAction<void, RootState, unknown, Action<string>> => (dispatch: any, getState: any): void => {
+  dispatch({
+    type: SAVE_CHANGES_IN_PROGRESS
+  });
+
   const token = localStorage.getItem(lsKeys.token);
   const state: RootState = getState();
   const survey = state.editSurvey;

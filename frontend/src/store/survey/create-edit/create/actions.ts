@@ -9,7 +9,7 @@ export const createSurvey = () => (dispatch: any, getState: any) : void => {
   const {title, description, isAnonymous, isActual} = state.createSurvey;
   const {token} = state.auth;
 
-  gqlCreateSurvey({id: null, title, description, isAnonymous, isActual}, token)
+  gqlCreateSurvey({id: null, title, description, isAnonymous, isActual, questions: []}, token)
     .then((survey) => {
       dispatch({
         type: RESET_STATE

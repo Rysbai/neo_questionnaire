@@ -6,14 +6,16 @@ import {
   RETRIEVE_SURVEY_FAIL,
   SAVE_CHANGES_SUCCESS,
   SAVE_CHANGES_FAIL,
+  SAVE_CHANGES_IN_PROGRESS,
 
   RetrieveSurveySuccessAction,
   RetrieveSurveyFailAction,
   EditSurveyState,
   SaveChangesSuccessAction,
-  SaveChangesFailAction
+  SaveChangesFailAction, SaveChangesInProgress,
 } from "./types";
 import {BASE_INITIAL_STATE, getBaseCreateEditSurveyReducers} from "../base/reducers";
+import {CHANGES_STATUS} from "../base/types";
 
 
 const INITIAL_STATE: EditSurveyState = {
@@ -23,7 +25,6 @@ const INITIAL_STATE: EditSurveyState = {
   retrieveSurveyError: "",
   isEdit: true
 };
-
 
 
 export const editSurvey = createReducer({
@@ -38,9 +39,14 @@ export const editSurvey = createReducer({
     retrieveSurveyError: action.error
   }),
 
+  [SAVE_CHANGES_IN_PROGRESS]: (state: EditSurveyState, action: SaveChangesInProgress) => ({
+    ...state,
+    changesStatus: CHANGES_STATUS.__saving
+  }),
+
   [SAVE_CHANGES_SUCCESS]: (state: EditSurveyState, action: SaveChangesSuccessAction): EditSurveyState => ({
     ...state,
-    changesSaved: true
+    changesStatus: CHANGES_STATUS.__saved
   }),
 
   [SAVE_CHANGES_FAIL]: (state: EditSurveyState, action: SaveChangesFailAction): EditSurveyState => ({

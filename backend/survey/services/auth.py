@@ -31,13 +31,3 @@ class Auth:
         return user_id
 
 
-def auth_required(func):
-    def resolve(*args, **kwargs):
-        token = kwargs.get('token', None)
-
-        logged_user_id = Auth.get_logged_user_id(token)
-
-        return func(logged_user_id=logged_user_id, *args, **kwargs)
-
-    return resolve
-

@@ -1,17 +1,9 @@
 import graphene as graphene
-from graphene_sqlalchemy import SQLAlchemyObjectType
 from graphql import GraphQLError
 
-from survey.models.survey import Survey as SurveyORM
-from survey.services.auth import auth_required
-
-
-class Survey(SQLAlchemyObjectType):
-    class Meta:
-        model = SurveyORM
-
-    def resolve_id(parent, info):
-        return parent.id
+from survey.api.types import Survey, Question
+from survey.models import SurveyORM, Question as QuestionORM
+from survey.services.decorators import auth_required
 
 
 class CreateSurvey(graphene.Mutation):
@@ -93,3 +85,31 @@ class EditSurvey(graphene.Mutation):
             update_fields['is_actual'] = is_actual
 
         return update_fields
+
+
+class CreateQuestion(graphene.Mutation):
+    class Arguments:
+        token = graphene.String()
+        survey_id = graphene.ID()
+        payload = graphene.String()
+        allow_multiple_answer = graphene.Boolean()
+
+    question = graphene.Field(lambda: Question)
+    message = graphene.String()
+
+    @auth_required
+    def mutate(self, info, survey_id, payload: str, allow_multiple_answer=False, *args, **kwargs):
+        new_question: QuestionORM = QuestionORM.create(
+            survey_id=survey_id,
+            allow_multiple_answer=allow_multiple_answer,
+            payload=payload
+        )
+
+        question = Question(
+            id=new_question.id,
+            survey_id=new_question.survey_id,
+            allow_multiple_answer=allow_multiple_answer,
+            payload=payload
+        )
+
+        return CreateQuestion(question=question, message='ok')

@@ -37,7 +37,7 @@ export default function (props: SurveyFormProps) {
         <TextField
           fullWidth
           name="title"
-          label="Название"
+          label="Заголовок"
           value={props.title}
           error={!!props.titleError}
           helperText={props.titleError}
@@ -47,7 +47,6 @@ export default function (props: SurveyFormProps) {
       </Box>
       <Box className={classes.miniSection}>
         <TextField
-          className={classes.miniSection}
           multiline
           fullWidth
           name="description"

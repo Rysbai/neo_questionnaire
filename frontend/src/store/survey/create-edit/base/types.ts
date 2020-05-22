@@ -19,11 +19,19 @@ export interface FieldErrorAction {
 }
 
 
+export const CHANGES_STATUS = {
+  __saved: '__saved__',
+  __saving: '__saving__',
+  __not_saved: '__not_saved__'
+};
+
+
 export interface BaseCreateEditSurveyState extends Survey {
   titleError: string,
   descriptionError: string,
-  changesSaved: boolean
+  changesStatus: string
 }
+
 
 
 export type CreateOrEditSurveyState = CreateSurveyState;

@@ -3,6 +3,7 @@ import {
   IS_ANONYMOUS,
   SET_FIELD_VALUE,
   TITLE,
+  CHANGES_STATUS,
 
   BaseCreateEditSurveyState,
   CreateOrEditSurveyState,
@@ -18,7 +19,8 @@ export const BASE_INITIAL_STATE : BaseCreateEditSurveyState = {
   isActual: false,
   titleError: "",
   descriptionError: "",
-  changesSaved: true
+  changesStatus: CHANGES_STATUS.__saved,
+  questions: []
 };
 
 
@@ -30,21 +32,21 @@ export function getBaseCreateEditSurveyReducers(typePrefix: string){
       (state: CreateOrEditSurveyState, action: SetFieldValueAction) => ({
         ...state,
         title: action.value,
-        changesSaved: false
+        changesStatus: CHANGES_STATUS.__not_saved
       }),
 
     [getAction(SET_FIELD_VALUE + DESCRIPTION)]:
       (state: CreateOrEditSurveyState, action: SetFieldValueAction) => ({
         ...state,
         description: action.value,
-        changesSaved: false
+        changesStatus: CHANGES_STATUS.__not_saved
       }),
 
     [getAction(SET_FIELD_VALUE + IS_ANONYMOUS)]:
       (state: CreateOrEditSurveyState, action: SetFieldValueAction) => ({
         ...state,
         isAnonymous: action.value,
-        changesSaved: false
+        changesStatus: CHANGES_STATUS.__not_saved
       }),
 
   }

@@ -8,7 +8,7 @@ export async function createSurvey(survey: Survey, token: string) : Promise<Surv
       createSurvey(token: $token, title: $title, description: $description, isAnonymous: $isAnonymous){
         message,
         survey {
-          id
+          id,
           title,
           description,
           isAnonymous,
@@ -28,13 +28,25 @@ export async function createSurvey(survey: Survey, token: string) : Promise<Surv
 
 export async function retrieveSurvey(surveyId: string, token: string | null) {
   const query = `
-    query RetrieveUser($surveyId: ID, $token: String) {
+    query RetrieveUser($surveyId: ID!, $token: String!) {
       survey(id: $surveyId, token: $token) {
         id,
         title,
         description,
         isAnonymous,
-        isActual
+        isActual,
+        questions {
+          id,
+          surveyId,
+          position,
+          payload,
+          allowMultipleAnswer,
+          options {
+            id,
+            questionId,
+            payload
+          }
+        }
       }
     }
   `;
@@ -50,23 +62,23 @@ export async function retrieveSurvey(surveyId: string, token: string | null) {
 export async function editSurvey(survey: Survey, token: string | null): Promise<string> {
     const query = `
     mutation EditSurvey(
-      $id: ID, 
-      $token: String, 
-      $title: String, 
-      $description: String, 
-      $isAnonymous: Boolean, 
-      $isActual: Boolean) {
-      
-        editSurvey(
-          surveyId: $id, 
-          token: $token, 
-          title: $title, 
-          description: $description, 
-          isAnonymous: $isAnonymous, 
-          isActual: $isActual
-         ) {
-            message
-        }
+      $id: ID!, 
+      $token: String!, 
+      $title: String!, 
+      $description: String!, 
+      $isAnonymous: Boolean!, 
+      $isActual: Boolean!  
+    ){
+      editSurvey(
+        surveyId: $id, 
+        token: $token, 
+        title: $title, 
+        description: $description, 
+        isAnonymous: $isAnonymous, 
+        isActual: $isActual
+      ){
+        message
+      }
     }
   `;
 

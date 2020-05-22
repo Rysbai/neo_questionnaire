@@ -1,16 +1,8 @@
 import graphene as graphene
-from graphene_sqlalchemy import SQLAlchemyObjectType
 
+from survey.api.types import User
 from survey.models import User as UserORM
 from survey.services.auth import Auth
-
-
-class User(SQLAlchemyObjectType):
-    class Meta:
-        model = UserORM
-
-    def resolve_id(parent, info):
-        return parent.id
 
 
 class Authorize(graphene.Mutation):

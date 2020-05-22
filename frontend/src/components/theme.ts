@@ -12,6 +12,11 @@ export const muiTheme = createMuiTheme({
       main: "#ffea00",
       dark: "#c7b800"
     },
+    success: {
+      light: "#76ea94",
+      main: "#3fb765",
+      dark: "#008639"
+    }
   },
   typography: {
     fontFamily: "Nunito"

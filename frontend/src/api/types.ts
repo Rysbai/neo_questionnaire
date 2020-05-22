@@ -16,4 +16,20 @@ export interface Survey {
   description: string,
   isAnonymous: boolean,
   isActual: boolean
+  questions: Array<Question>
+}
+
+
+export interface Question {
+  id: string | number | null,
+  payload: string,
+  isMultipleChoice: boolean
+  options: Array<Option>
+}
+
+
+export interface Option {
+  id: string | number | null,
+  questionId: string | number | null,
+  payload: string
 }
