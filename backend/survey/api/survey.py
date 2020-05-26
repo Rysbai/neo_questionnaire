@@ -1,8 +1,8 @@
 import graphene as graphene
 from graphql import GraphQLError
 
-from survey.api.types import Survey, Question
-from survey.models import SurveyORM, Question as QuestionORM
+from survey.api.types import Survey, Question, Option, OptionInput
+from survey.models import SurveyORM, Question as QuestionORM, Option as OptionORM
 from survey.services.decorators import auth_required
 
 
@@ -90,23 +90,38 @@ class CreateQuestion(graphene.Mutation):
         survey_id = graphene.ID()
         payload = graphene.String()
         allow_multiple_answer = graphene.Boolean()
+        options = graphene.List(OptionInput)
 
     question = graphene.Field(lambda: Question)
     message = graphene.String()
 
     @auth_required
-    def mutate(self, info, survey_id, payload: str, allow_multiple_answer=False, *args, **kwargs):
+    def mutate(self, info, survey_id, payload: str, options: list = None, allow_multiple_answer=False, *args, **kwargs):
         new_question: QuestionORM = QuestionORM.create(
             survey_id=survey_id,
             allow_multiple_answer=allow_multiple_answer,
             payload=payload
         )
 
+        option_list_field = []
+        for option in options or []:
+            new_option: OptionORM = OptionORM.create(
+                question_id=new_question.id,
+                payload=option.payload,
+            )
+            option_list_field.append(
+                Option(
+                    id=new_option.id,
+                    question_id=new_option.question_id,
+                    payload=new_option.payload
+                )
+            )
+
         question = Question(
             id=new_question.id,
             survey_id=new_question.survey_id,
             allow_multiple_answer=allow_multiple_answer,
-            payload=payload
+            payload=payload,
         )
 
         return CreateQuestion(question=question, message='ok')

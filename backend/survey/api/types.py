@@ -1,3 +1,5 @@
+import graphene
+from graphene import InputObjectType
 from graphene_sqlalchemy import SQLAlchemyObjectType
 
 from survey.models import Question as QuestionORM, User as UserORM, Option as OptionORM
@@ -13,7 +15,7 @@ class Option(SQLAlchemyObjectType):
 
     @staticmethod
     def init_field(id, question_id, payload, *args, **kwargs):
-        return Question(
+        return Option(
             id=id,
             question_id=question_id,
             payload=payload
@@ -65,3 +67,10 @@ class User(SQLAlchemyObjectType):
 
     def resolve_id(parent, info):
         return parent.id
+
+
+class OptionInput(InputObjectType):
+    id = graphene.ID(required=False)
+    question_id = graphene.ID(required=False)
+    payload = graphene.String(required=True)
+    allow_multiple_choice = graphene.Boolean(default=False)

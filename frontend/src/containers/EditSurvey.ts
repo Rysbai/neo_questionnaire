@@ -2,7 +2,12 @@ import EditSurvey from "../components/pages/EditSurvey";
 import {bindActionCreators} from "redux";
 import {connect as reduxConnect, ConnectedProps} from "react-redux";
 import {RootState} from "../store";
-import {retrieveSurvey, saveChanges} from "../store/survey/create-edit/edit/actions";
+import {
+  createNewQuestion,
+  retrieveSurvey,
+  saveChanges,
+  setQuestionFieldValue
+} from "../store/survey/create-edit/edit/actions";
 import getCreateEditSurveyBaseActions from "../store/survey/create-edit/base/actions";
 import {EDIT_SURVEY_TYPE_PREFIX} from "../store/survey/create-edit/edit/types";
 
@@ -17,7 +22,9 @@ const mapDispatchToProps = (dispatch: any) => ({
   actions: bindActionCreators({
     ...getCreateEditSurveyBaseActions(EDIT_SURVEY_TYPE_PREFIX),
     saveChanges,
-    retrieveSurvey
+    retrieveSurvey,
+    createNewQuestion,
+    setQuestionFieldValue
   }, dispatch)
 });
 

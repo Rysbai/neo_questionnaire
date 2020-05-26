@@ -16,7 +16,7 @@ export default function (props: AppBarProps) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" elevation={0}>
+      <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" className={classes.logo}>NeobisSurvey</Typography>
           <Status {...props}/>

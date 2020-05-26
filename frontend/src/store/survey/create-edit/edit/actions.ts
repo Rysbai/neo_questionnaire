@@ -1,17 +1,20 @@
 import {lsKeys} from "../../../constants";
-import {retrieveSurvey as retrieveSurveyApi} from "../../../../api/survey";
+import {retrieveSurvey as retrieveSurveyApi, createNewQuestion as createNewQuestionApi} from "../../../../api/survey";
 import {
+  CREATE_NEW_QUESTION_SUCCESS,
+  InitialQuestion, QUESTION_FIELD_NAME_ACTION_TYPE, QuestionFieldName,
   RETRIEVE_SURVEY_FAIL,
   RETRIEVE_SURVEY_SUCCESS,
   SAVE_CHANGES_FAIL,
   SAVE_CHANGES_IN_PROGRESS,
   SAVE_CHANGES_SUCCESS
 } from "./types";
-import {ThunkAction} from "redux-thunk";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {RootState} from "../../../index";
 import {Action} from "redux";
 
 import {editSurvey as editSurveyApi} from "../../../../api/survey";
+import {Question} from "../../../../api/types";
 
 
 export const retrieveSurvey = (surveyId: string) => (dispatch: any): void => {
@@ -62,5 +65,34 @@ export const createNewQuestion = (): ThunkAction<void, RootState, unknown, Actio
     type: SAVE_CHANGES_IN_PROGRESS
   });
 
+  const state: RootState = getState();
+  const survey = state.editSurvey;
+  const questionData = InitialQuestion(survey.id);
 
+  createNewQuestionApi(questionData)
+    .then((question: Question) => {
+      dispatch({
+        type: CREATE_NEW_QUESTION_SUCCESS,
+        question
+      });
+
+      dispatch({
+        type: SAVE_CHANGES_SUCCESS
+      })
+    })
+    .catch(error => {
+      dispatch({
+        type: SAVE_CHANGES_FAIL,
+        error
+      })
+    })
 };
+
+
+export const setQuestionFieldValue =
+  (index: number, fieldName: QuestionFieldName, value: string | boolean) => ({
+    type: QUESTION_FIELD_NAME_ACTION_TYPE(fieldName),
+    index,
+    fieldName,
+    value
+  });

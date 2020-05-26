@@ -11,7 +11,7 @@ export interface UserWithToken {
 
 
 export interface Survey {
-  id: string | number | null,
+  id: string | number | undefined,
   title: string,
   description: string,
   isAnonymous: boolean,
@@ -21,9 +21,10 @@ export interface Survey {
 
 
 export interface Question {
-  id: string | number | null,
+  id: string | number | undefined,
   payload: string,
-  isMultipleChoice: boolean
+  surveyId: string | number | null,
+  allowMultipleAnswer: boolean,
   options: Array<Option>
 }
 

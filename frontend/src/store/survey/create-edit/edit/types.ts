@@ -8,7 +8,7 @@ export const SAVE_CHANGES_SUCCESS = EDIT_SURVEY_TYPE_PREFIX + "/SAVE_CHANGES_SUC
 export const SAVE_CHANGES_IN_PROGRESS = EDIT_SURVEY_TYPE_PREFIX + "/SAVE_CHANGES_IN_PROGRESS";
 export const SAVE_CHANGES_FAIL = EDIT_SURVEY_TYPE_PREFIX + "/SAVE_CHANGES_FAIL";
 export const CREATE_NEW_QUESTION_SUCCESS = `${EDIT_SURVEY_TYPE_PREFIX}/CREATE_NEW_QUESTION_SUCCESS`;
-export const CREATE_NEW_QUESTION_FAIL = `${EDIT_SURVEY_TYPE_PREFIX}/CREATE_NEW_QUESTION_FAIL`;
+export const SET_QUESTION_FIELD_VALUE = `${EDIT_SURVEY_TYPE_PREFIX}/SET_QUESTION_FIELD_VALUE`;
 
 
 export const InitialOption: Option = {
@@ -18,14 +18,15 @@ export const InitialOption: Option = {
 };
 
 
-export const InitialQuestion: Question = {
-  id: null,
+export const InitialQuestion = (surveyId: number | string): Question => ({
+  id: undefined,
+  surveyId: surveyId,
   payload: "New Question",
-  isMultipleChoice: false,
+  allowMultipleAnswer: false,
   options: [
     InitialOption
   ]
-};
+});
 
 export interface RetrieveSurveySuccessAction {
   type: typeof RETRIEVE_SURVEY_SUCCESS,
@@ -56,11 +57,36 @@ export interface SaveChangesInProgress {
 
 
 export interface CreateNewQuestionSuccess {
-  type: typeof CREATE_NEW_QUESTION_SUCCESS
+  type: typeof CREATE_NEW_QUESTION_SUCCESS,
+  question: Question
 }
 
 export interface EditSurveyState extends BaseCreateEditSurveyState {
   saveError: string,
   retrieveSurveyError: string,
   isEdit: true
+}
+
+export const QUESTION_FIELD_NAMES = {
+  payload: 'payload',
+  allowMultipleAnswer: 'allowMultipleAnswer'
+};
+
+export const QUESTION_FIELD_TYPE = {
+  'payload': 'PAYLOAD',
+  'allowMultipleAnswer': 'ALLOW_MULTIPLE_ANSWER'
+};
+
+export const QUESTION_FIELD_NAME_ACTION_TYPE = (fieldName: QuestionFieldName) => (
+  `${SET_QUESTION_FIELD_VALUE}/${QUESTION_FIELD_TYPE[fieldName]}`
+);
+
+
+export type QuestionFieldName = 'payload' | 'allowMultipleAnswer';
+
+export interface SetQuestionFieldAction {
+  type: string,
+  index: number,
+  fieldName: string,
+  value: string | boolean
 }
