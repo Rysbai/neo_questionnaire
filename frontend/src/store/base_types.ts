@@ -7,3 +7,4 @@ export interface BasicFailAction {
 }
 
 export type GetState = () => RootState
+export type Dispatch = (config: any) => void

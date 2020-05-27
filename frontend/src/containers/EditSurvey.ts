@@ -3,6 +3,7 @@ import {bindActionCreators} from "redux";
 import {connect as reduxConnect, ConnectedProps} from "react-redux";
 import {RootState} from "../store";
 import {
+  createNewOption,
   createNewQuestion,
   retrieveSurvey,
   saveChanges,
@@ -24,6 +25,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     saveChanges,
     retrieveSurvey,
     createNewQuestion,
+    createNewOption,
     setQuestionFieldValue
   }, dispatch)
 });

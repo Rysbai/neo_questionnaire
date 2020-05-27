@@ -17,7 +17,7 @@ import {
   SaveChangesFailAction,
   SaveChangesInProgress,
   CreateNewQuestionSuccess,
-  SetQuestionFieldAction,
+  SetQuestionFieldAction, CreateNewOptionSuccessAction, CREATE_NEW_OPTION_SUCCESS, CREATE_NEW_OPTION_FAIL,
 } from "./types";
 import {BASE_INITIAL_STATE, getBaseCreateEditSurveyReducers} from "../base/reducers";
 import {CHANGES_STATUS} from "../base/types";
@@ -63,6 +63,18 @@ export const editSurvey = createReducer({
     ]
   }),
 
+  [CREATE_NEW_OPTION_SUCCESS]: (state: EditSurveyState, action: CreateNewOptionSuccessAction) => ({
+    ...state,
+    questions: [
+      ...addNewOption(action, state.questions)
+    ],
+    changesStatus: CHANGES_STATUS.__saved,
+  }),
+  [CREATE_NEW_OPTION_FAIL]: (state: EditSurveyState, action: any) => ({
+    ...state,
+    saveError: action.error
+  }),
+
   [QUESTION_FIELD_NAME_ACTION_TYPE('payload')]: (state: EditSurveyState, action: SetQuestionFieldAction) => ({
     ...state,
     changesStatus: CHANGES_STATUS.__not_saved,
@@ -106,4 +118,16 @@ function updateUnsavedQuestions(unsavedQuestionIndexes: Array<number>, newIndex:
   }
 
   return unsavedQuestionIndexes
+}
+
+
+function addNewOption(action: CreateNewOptionSuccessAction, questions: Array<Question>): Array<Question> {
+  const questionId = action.option.questionId;
+
+  return questions.map(question => {
+    if (question.id == questionId){
+      question.options.push(action.option);
+    }
+    return question
+  });
 }

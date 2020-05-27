@@ -13,16 +13,11 @@ export interface SetFieldValueAction {
 }
 
 
-export interface FieldErrorAction {
-  type: string,
-  value: string
-}
-
-
 export const CHANGES_STATUS = {
   __saved: '__saved__',
   __saving: '__saving__',
-  __not_saved: '__not_saved__'
+  __not_saved: '__not_saved__',
+  __error: '__error__'
 };
 
 

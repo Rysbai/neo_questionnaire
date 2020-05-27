@@ -59,6 +59,7 @@ export default function (props: PropsFromRedux) {
             questions={props.questions}
             setQuestionFieldValue={props.actions.setQuestionFieldValue}
             saveChanges={props.actions.saveChanges}
+            createNewOption={props.actions.createNewOption}
           />
         </section>
       </Container>
@@ -69,8 +70,9 @@ export default function (props: PropsFromRedux) {
 
 interface QuestionsSection {
   questions: Array<Question>,
-  setQuestionFieldValue: (index: number, fieldName: QuestionFieldName, value: string | boolean) => void
-  saveChanges: () => void
+  setQuestionFieldValue: (index: number, fieldName: QuestionFieldName, value: string | boolean) => void,
+  saveChanges: () => void,
+  createNewOption: (questionId: number | string) => void
 }
 
 function Questions(props: QuestionsSection) {
@@ -91,7 +93,9 @@ function Questions(props: QuestionsSection) {
             <div>
               {question.options.map((option) => (
                 <Grid container
-                      key={1}
+                      // @ts-ignore
+                      key={option.id}
+                      className={classes.optionsContainer}
                       alignItems="flex-end">
                   <Grid item xs={1}>
                     {question.allowMultipleAnswer ? (
@@ -112,6 +116,7 @@ function Questions(props: QuestionsSection) {
               ))}
               <Button color="primary"
                       size="small"
+                      onClick={() => (typeof question.id === 'string' || typeof question.id === 'number') && props.createNewOption(question.id)}
                       className={classes.addOptionLinkButton}>+ Добавить ответ</Button>
             </div>
           </CardContent>

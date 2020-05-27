@@ -159,3 +159,27 @@ class EditQuestion(graphene.Mutation):
                 raise GraphQLError('option.doesNotExist')
 
             option_orm.update(**option.__dict__)
+
+
+class CreateOption(graphene.Mutation):
+    class Arguments:
+        question_id = graphene.ID()
+        payload = graphene.String()
+
+    message = graphene.String()
+    option = graphene.Field(lambda: Option)
+
+    @auth_required
+    def mutate(self, info, question_id, payload, *args, **kwargs):
+        option_orm = OptionORM.create(
+            question_id=question_id,
+            payload=payload
+        )
+
+        option = Option(
+            id=option_orm.id,
+            question_id=option_orm.question_id,
+            payload=option_orm.payload
+        )
+
+        return CreateOption(message='ok', option=option)

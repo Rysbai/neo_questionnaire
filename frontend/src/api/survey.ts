@@ -1,4 +1,4 @@
-import {Question, Survey} from "./types";
+import {Option, Question, Survey} from "./types";
 import {authorizedGqClient} from "./clients";
 
 
@@ -151,4 +151,32 @@ export async function editQuestion(question: Question): Promise<string> {
   if (response.editQuestion && response.editQuestion && response.editQuestion.message) return response.editQuestion.message;
 
   throw 'Проблема при сохранении изменений вопроса'
+}
+
+
+export async function createNewOption(option: Option): Promise<Option> {
+  const query = `
+    mutation CreateNewOption(
+      $questionId: ID!,
+      $payload: String!
+    ) {
+      createOption(
+        questionId: $questionId,
+        payload: $payload
+       ) {
+        message,
+        option {
+          id,
+          questionId,
+          payload
+        }
+      }
+    }
+  `;
+
+  const response = await authorizedGqClient().request(query, option);
+
+  if (response.createOption && response.createOption.option) return response.createOption.option;
+
+  throw 'Проблема при добавлении ответа'
 }

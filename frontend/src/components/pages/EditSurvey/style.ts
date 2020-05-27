@@ -44,5 +44,8 @@ export const useStyles = makeStyles((theme) => ({
 
   questionCard: {
     marginTop: theme.spacing(2)
+  },
+  optionsContainer: {
+    marginBottom: theme.spacing(1)
   }
 }));
