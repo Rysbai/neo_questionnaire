@@ -23,11 +23,15 @@ export default function (props: PropsFromRedux) {
 
   return (
     <div>
-      <EditSurveyToolBar changesStatus={props.changesStatus} surveyId={props.surveyId}/>
-      <Container maxWidth="sm" className={classes.container}>
+      <EditSurveyToolBar changesStatus={props.changesStatus}
+                         surveyId={props.surveyId}/>
+      <Container maxWidth="sm"
+                 className={classes.container}>
         <Card>
           <CardContent>
-            <Grid container alignItems="center" justify="space-between">
+            <Grid container
+                  alignItems="center"
+                  justify="space-between">
               <Grid item>
                 <Typography variant="h6">Edit survey</Typography>
               </Grid>
@@ -44,7 +48,9 @@ export default function (props: PropsFromRedux) {
               </Grid>
             </Grid>
             <section className={classes.surveySection}>
-              <SurveyForm {...props} {...props.actions} onSubmit={props.actions.saveChanges}/>
+              <SurveyForm {...props}
+                          {...props.actions}
+                          onSubmit={props.actions.saveChanges}/>
             </section>
           </CardContent>
         </Card>
@@ -52,6 +58,7 @@ export default function (props: PropsFromRedux) {
           <Questions
             questions={props.questions}
             setQuestionFieldValue={props.actions.setQuestionFieldValue}
+            saveChanges={props.actions.saveChanges}
           />
         </section>
       </Container>
@@ -63,6 +70,7 @@ export default function (props: PropsFromRedux) {
 interface QuestionsSection {
   questions: Array<Question>,
   setQuestionFieldValue: (index: number, fieldName: QuestionFieldName, value: string | boolean) => void
+  saveChanges: () => void
 }
 
 function Questions(props: QuestionsSection) {
@@ -71,23 +79,29 @@ function Questions(props: QuestionsSection) {
   return (
     <div>
       {props.questions.map((question, index) => (
-        <Card key={index} className={classes.questionCard}>
+        <Card key={index}
+              className={classes.questionCard}>
           <CardContent>
             <QuestionForm
               index={index}
               question={question}
               setQuestionFieldValue={props.setQuestionFieldValue}
+              saveChanges={props.saveChanges}
             />
             <div>
               {question.options.map((option) => (
-                <Grid container key={1} alignItems="flex-end">
+                <Grid container
+                      key={1}
+                      alignItems="flex-end">
                   <Grid item xs={1}>
                     {question.allowMultipleAnswer ? (
-                        <CheckBoxOutlineBlankIcon color="disabled" className={classes.questionTypeIcon}/>
+                        <CheckBoxOutlineBlankIcon color="disabled"
+                                                  className={classes.questionTypeIcon}/>
                       )
                       :
                       (
-                      <RadioButtonUncheckedIcon color="disabled" className={classes.questionTypeIcon}/>
+                      <RadioButtonUncheckedIcon color="disabled"
+                                                className={classes.questionTypeIcon}/>
                       )
                     }
                   </Grid>
@@ -96,7 +110,9 @@ function Questions(props: QuestionsSection) {
                   </Grid>
                 </Grid>
               ))}
-              <Button color="primary" size="small" className={classes.addOptionLinkButton}>+ Добавить ответ</Button>
+              <Button color="primary"
+                      size="small"
+                      className={classes.addOptionLinkButton}>+ Добавить ответ</Button>
             </div>
           </CardContent>
         </Card>

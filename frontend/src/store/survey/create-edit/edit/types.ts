@@ -61,21 +61,20 @@ export interface CreateNewQuestionSuccess {
   question: Question
 }
 
+
 export interface EditSurveyState extends BaseCreateEditSurveyState {
   saveError: string,
   retrieveSurveyError: string,
-  isEdit: true
+  isEdit: true,
+  unsavedQuestions: Array<number>
 }
 
-export const QUESTION_FIELD_NAMES = {
-  payload: 'payload',
-  allowMultipleAnswer: 'allowMultipleAnswer'
-};
 
 export const QUESTION_FIELD_TYPE = {
   'payload': 'PAYLOAD',
   'allowMultipleAnswer': 'ALLOW_MULTIPLE_ANSWER'
 };
+
 
 export const QUESTION_FIELD_NAME_ACTION_TYPE = (fieldName: QuestionFieldName) => (
   `${SET_QUESTION_FIELD_VALUE}/${QUESTION_FIELD_TYPE[fieldName]}`
@@ -83,6 +82,7 @@ export const QUESTION_FIELD_NAME_ACTION_TYPE = (fieldName: QuestionFieldName) =>
 
 
 export type QuestionFieldName = 'payload' | 'allowMultipleAnswer';
+
 
 export interface SetQuestionFieldAction {
   type: string,

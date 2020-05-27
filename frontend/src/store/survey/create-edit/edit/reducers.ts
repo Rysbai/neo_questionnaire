@@ -29,7 +29,8 @@ const INITIAL_STATE: EditSurveyState = {
 
   saveError: "",
   retrieveSurveyError: "",
-  isEdit: true
+  isEdit: true,
+  unsavedQuestions: []
 };
 
 
@@ -64,15 +65,23 @@ export const editSurvey = createReducer({
 
   [QUESTION_FIELD_NAME_ACTION_TYPE('payload')]: (state: EditSurveyState, action: SetQuestionFieldAction) => ({
     ...state,
+    changesStatus: CHANGES_STATUS.__not_saved,
     questions: [
       ...editQuestion(action, state.questions)
+    ],
+    unsavedQuestions: [
+      ...updateUnsavedQuestions(state.unsavedQuestions, action.index)
     ]
   }),
 
   [QUESTION_FIELD_NAME_ACTION_TYPE('allowMultipleAnswer')]: (state: EditSurveyState, action: SetQuestionFieldAction) => ({
       ...state,
+    changesStatus: CHANGES_STATUS.__not_saved,
     questions: [
         ...editQuestion(action, state.questions)
+    ],
+    unsavedQuestions: [
+      ...updateUnsavedQuestions(state.unsavedQuestions, action.index)
     ]
   }),
 
@@ -88,4 +97,13 @@ function editQuestion(action: SetQuestionFieldAction, questions: Array<Question>
   questions[action.index][action.fieldName] = action.value;
 
   return questions
+}
+
+
+function updateUnsavedQuestions(unsavedQuestionIndexes: Array<number>, newIndex: number): Array<number> {
+  if (!unsavedQuestionIndexes.includes(newIndex)){
+    unsavedQuestionIndexes.push(newIndex)
+  }
+
+  return unsavedQuestionIndexes
 }

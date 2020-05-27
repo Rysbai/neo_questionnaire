@@ -1,3 +1,4 @@
+import {RootState} from "./index";
 
 
 export interface BasicFailAction {
@@ -5,3 +6,4 @@ export interface BasicFailAction {
   error: string
 }
 
+export type GetState = () => RootState

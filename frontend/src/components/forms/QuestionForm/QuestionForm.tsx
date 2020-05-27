@@ -7,7 +7,8 @@ import {QuestionFieldName} from "../../../store/survey/create-edit/edit/types";
 interface QuestionFormProps {
   index: number,
   question: Question,
-  setQuestionFieldValue: (index: number, fieldName: QuestionFieldName, value: string | boolean) => void
+  setQuestionFieldValue: (index: number, fieldName: QuestionFieldName, value: string | boolean) => void,
+  saveChanges: () => void
 }
 
 
@@ -25,6 +26,7 @@ export default function (props: QuestionFormProps) {
           name="payload"
           value={props.question.payload}
           onChange={handleFieldChange}
+          onBlur={props.saveChanges}
         />
       </Box>
       <Box>
@@ -38,6 +40,7 @@ export default function (props: QuestionFormProps) {
               onChange={
                 ({target}) =>
                   props.setQuestionFieldValue(props.index, 'allowMultipleAnswer', target.checked)}
+              onBlur={props.saveChanges}
             />
           }
           label="Множественный выбор"

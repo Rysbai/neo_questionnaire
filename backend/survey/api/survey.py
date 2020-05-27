@@ -125,3 +125,37 @@ class CreateQuestion(graphene.Mutation):
         )
 
         return CreateQuestion(question=question, message='ok')
+
+
+class EditQuestion(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID()
+        payload = graphene.String()
+        allow_multiple_answer = graphene.Boolean()
+        options = graphene.List(OptionInput)
+
+    message = graphene.String()
+
+    @auth_required
+    def mutate(self, info, id, payload, allow_multiple_answer, options, *args, **kwargs):
+        question = QuestionORM.get_by_id(id)
+        if not question:
+            raise GraphQLError('question.doesNotExist')
+
+        question.update(
+            payload=payload,
+            allow_multiple_answer=allow_multiple_answer
+        )
+
+        EditQuestion._update_options(options)
+
+        return EditQuestion(message='ok')
+
+    @staticmethod
+    def _update_options(options):
+        for option in options:
+            option_orm = OptionORM.get_by_id(option.id)
+            if not option_orm:
+                raise GraphQLError('option.doesNotExist')
+
+            option_orm.update(**option.__dict__)
