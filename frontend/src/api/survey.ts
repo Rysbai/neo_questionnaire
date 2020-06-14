@@ -28,7 +28,7 @@ export async function createSurvey(survey: Survey) : Promise<Survey> {
 
 export async function retrieveSurvey(surveyId: string) {
   const query = `
-    query RetrieveUser($surveyId: ID!) {
+    query RetrieveSurvey($surveyId: ID!) {
       survey(id: $surveyId) {
         id,
         title,

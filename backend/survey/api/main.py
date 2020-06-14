@@ -18,6 +18,7 @@ class Mutations(graphene.ObjectType):
 
 
 class Query(graphene.ObjectType):
+    surveys = graphene.List(Survey, page=graphene.Int(), per_page=graphene.Int())
     survey = graphene.Field(Survey, id=graphene.ID())
     user = graphene.Field(User)
 
@@ -35,6 +36,23 @@ class Query(graphene.ObjectType):
             is_anonymous=survey.is_anonymous,
             is_actual=survey.is_actual
         )
+
+    @auth_required
+    def resolve_surveys(self, info, page=1, per_page=10, **kwargs):
+        pagination = SurveyORM.query.filter(SurveyORM.is_actual == True).paginate(page=page, per_page=per_page)
+        surveys = []
+        for survey in pagination.items:
+            surveys.append(
+                Survey(
+                    id=survey.id,
+                    title=survey.title,
+                    description=survey.description,
+                    is_anonymous=survey.is_anonymous,
+                    is_actual=survey.is_actual
+                )
+            )
+
+        return surveys
 
 
 schema = graphene.Schema(query=Query, mutation=Mutations)
