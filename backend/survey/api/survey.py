@@ -4,6 +4,7 @@ from graphql import GraphQLError
 from survey.api.types import Survey, Question, Option, OptionInput
 from survey.models import SurveyORM, Question as QuestionORM, Option as OptionORM
 from survey.services.decorators import auth_required
+from survey.utils.survey_code_generator import generate_survey_code
 
 
 class CreateSurvey(graphene.Mutation):
@@ -11,25 +12,30 @@ class CreateSurvey(graphene.Mutation):
         title = graphene.String()
         description = graphene.String()
         is_anonymous = graphene.Boolean(required=False)
+        is_public = graphene.Boolean(required=False)
 
     survey = graphene.Field(lambda: Survey)
     message = graphene.String()
 
     @auth_required
-    def mutate(self, info, logged_user_id, title, description, is_anonymous, *args, **kwargs):
+    def mutate(self, info, logged_user_id, title, description, is_anonymous, is_public=False, *args, **kwargs):
         new_survey = SurveyORM.create(
             owner_id=logged_user_id,
+            code=generate_survey_code(),
             title=title,
             description=description,
             is_anonymous=is_anonymous,
+            is_public=is_public,
             is_actual=False
         )
         survey = Survey(
             id=new_survey.id,
             owner_id=new_survey.owner_id,
+            code=new_survey.code,
             title=new_survey.title,
             description=new_survey.description,
             is_anonymous=new_survey.is_anonymous,
+            is_public=new_survey.is_public,
             is_actual=new_survey.is_actual
         )
         return CreateSurvey(survey=survey, message='ok')
@@ -41,6 +47,7 @@ class EditSurvey(graphene.Mutation):
         title = graphene.String(required=False)
         description = graphene.String(required=False)
         is_anonymous = graphene.Boolean(required=False)
+        is_public = graphene.Boolean(required=False)
         is_actual = graphene.Boolean(required=False)
 
     survey = graphene.Field(lambda: Survey)
@@ -68,7 +75,7 @@ class EditSurvey(graphene.Mutation):
         return EditSurvey(survey=resolved_survey, message="ok")
 
     @staticmethod
-    def _get_update_fields(title, description, is_anonymous, is_actual, **kwargs):
+    def _get_update_fields(title, description, is_anonymous, is_actual, is_public, **kwargs):
         update_fields = {}
         if title:
             update_fields['title'] = title
@@ -78,6 +85,9 @@ class EditSurvey(graphene.Mutation):
 
         if is_anonymous:
             update_fields['is_anonymous'] = is_anonymous
+
+        if is_public:
+            update_fields['is_public'] = is_public
 
         if is_actual:
             update_fields['is_actual'] = is_actual

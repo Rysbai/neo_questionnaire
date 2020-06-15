@@ -10,9 +10,12 @@ class Survey(Model, SurrogatePK):
 
     id = db.Column(db.Integer, primary_key=True)
     owner_id = reference_col(User.__tablename__, nullable=False)
+    owner = relationship(User, backref=backref('surveys', uselist=True, cascade='delete,all'))
+    code = db.Column(db.String)
     title = db.Column(db.String)
     description = db.Column(db.String)
     is_anonymous = db.Column(db.Boolean)
+    is_public = db.Column(db.Boolean, default=False)
     is_actual = db.Column(db.Boolean, default=True)
 
 

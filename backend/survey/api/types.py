@@ -56,6 +56,13 @@ class Survey(SQLAlchemyObjectType):
     def resolve_id(parent, info):
         return parent.id
 
+    def resolve_owner(self, info, *args):
+        owner = UserORM.get_by_id(self.owner_id)
+        return User(
+            id=owner.id,
+            name=owner.name
+        )
+
     def resolve_questions(parent, info, *args):
         questions = QuestionORM.query.filter_by(survey_id=parent.id)
         return [Question.init_field(**question.__dict__) for question in questions]

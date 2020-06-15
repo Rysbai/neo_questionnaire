@@ -20,20 +20,41 @@ class Mutations(graphene.ObjectType):
 class Query(graphene.ObjectType):
     surveys = graphene.List(Survey, page=graphene.Int(), per_page=graphene.Int())
     survey = graphene.Field(Survey, id=graphene.ID())
+    survey_by_code = graphene.Field(Survey, code=graphene.String())
     user = graphene.Field(User)
 
     @auth_required
     def resolve_survey(self, info, id, *args, **kwargs):
         survey = SurveyORM.get_by_id(id)
-
         if not survey:
             raise GraphQLError("survey.does.not.exist")
 
         return Survey(
             id=survey.id,
+            owner_id=survey.owner_id,
+            code=survey.code,
             title=survey.title,
             description=survey.description,
             is_anonymous=survey.is_anonymous,
+            is_public=survey.is_public,
+            is_actual=survey.is_actual
+        )
+
+    @auth_required
+    def resolve_survey_by_code(self, info, code, **kwargs):
+        survey = SurveyORM.query.filter(SurveyORM.code == code).first()
+
+        if not survey:
+            raise GraphQLError('survey.does.not.exists')
+
+        return Survey(
+            id=survey.id,
+            owner_id=survey.owner_id,
+            code=survey.code,
+            title=survey.title,
+            description=survey.description,
+            is_anonymous=survey.is_anonymous,
+            is_public=survey.is_public,
             is_actual=survey.is_actual
         )
 
