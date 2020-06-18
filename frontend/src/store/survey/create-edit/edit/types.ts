@@ -11,13 +11,14 @@ export const CREATE_NEW_QUESTION_SUCCESS = `${EDIT_SURVEY_TYPE_PREFIX}/CREATE_NE
 export const SET_QUESTION_FIELD_VALUE = `${EDIT_SURVEY_TYPE_PREFIX}/SET_QUESTION_FIELD_VALUE`;
 export const CREATE_NEW_OPTION_SUCCESS = `${EDIT_SURVEY_TYPE_PREFIX}/CREATE_NEW_OPTION_SUCCESS`;
 export const CREATE_NEW_OPTION_FAIL = `${EDIT_SURVEY_TYPE_PREFIX}/CREATE_NEW_OPTION_FAIL`;
+export const EDIT_OPTION_PAYLOAD = `${EDIT_SURVEY_TYPE_PREFIX}/EDIT_OPTION_PAYLOAD`;
+
 
 export const InitialOption: Option = {
   id: null,
   questionId: null,
   payload: "New option"
 };
-
 
 export const InitialQuestion = (surveyId: number | string): Question => ({
   id: undefined,
@@ -96,4 +97,12 @@ export interface SetQuestionFieldAction {
 export interface CreateNewOptionSuccessAction {
   type: typeof CREATE_NEW_OPTION_SUCCESS,
   option: Option
+}
+
+
+export interface EditOptionPayloadAction {
+  type: typeof EDIT_OPTION_PAYLOAD,
+  questionIndex: number,
+  optionIndex: number,
+  payload: string
 }

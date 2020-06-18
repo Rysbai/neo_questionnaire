@@ -8,6 +8,8 @@ import {
   SAVE_CHANGES_FAIL,
   SAVE_CHANGES_IN_PROGRESS,
   CREATE_NEW_QUESTION_SUCCESS,
+  CREATE_NEW_OPTION_SUCCESS,
+  CREATE_NEW_OPTION_FAIL,
   QUESTION_FIELD_NAME_ACTION_TYPE,
 
   RetrieveSurveySuccessAction,
@@ -17,8 +19,11 @@ import {
   SaveChangesFailAction,
   SaveChangesInProgress,
   CreateNewQuestionSuccess,
-  SetQuestionFieldAction, CreateNewOptionSuccessAction, CREATE_NEW_OPTION_SUCCESS, CREATE_NEW_OPTION_FAIL,
+  SetQuestionFieldAction,
+  CreateNewOptionSuccessAction, EDIT_OPTION_PAYLOAD, EditOptionPayloadAction,
 } from "./types";
+
+
 import {BASE_INITIAL_STATE, getBaseCreateEditSurveyReducers} from "../base/reducers";
 import {CHANGES_STATUS} from "../base/types";
 import {Question} from "../../../../api/types";
@@ -96,6 +101,16 @@ export const editSurvey = createReducer({
       ...updateUnsavedQuestions(state.unsavedQuestions, action.index)
     ]
   }),
+  [EDIT_OPTION_PAYLOAD]: (state: EditSurveyState, action: EditOptionPayloadAction) => ({
+    ...state,
+    changesStatus: CHANGES_STATUS.__not_saved,
+    questions: [
+      ...editOptionPayload(action, state.questions)
+    ],
+    unsavedQuestions: [
+      ...updateUnsavedQuestions(state.unsavedQuestions, action.questionIndex)
+    ]
+  }),
 
   [SAVE_CHANGES_FAIL]: (state: EditSurveyState, action: SaveChangesFailAction): EditSurveyState => ({
     ...state,
@@ -130,4 +145,12 @@ function addNewOption(action: CreateNewOptionSuccessAction, questions: Array<Que
     }
     return question
   });
+}
+
+
+function editOptionPayload(action: EditOptionPayloadAction, questions: Array<Question>) {
+    // @ts-ignore
+    questions[action.questionIndex]["options"][action.optionIndex].payload = action.payload;
+
+    return questions
 }

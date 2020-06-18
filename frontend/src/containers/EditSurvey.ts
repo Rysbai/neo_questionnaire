@@ -4,7 +4,7 @@ import {connect as reduxConnect, ConnectedProps} from "react-redux";
 import {RootState} from "../store";
 import {
   createNewOption,
-  createNewQuestion,
+  createNewQuestion, editOptionPayload,
   retrieveSurvey,
   saveChanges,
   setQuestionFieldValue
@@ -26,7 +26,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     retrieveSurvey,
     createNewQuestion,
     createNewOption,
-    setQuestionFieldValue
+    setQuestionFieldValue,
+    editOptionPayload
   }, dispatch)
 });
 

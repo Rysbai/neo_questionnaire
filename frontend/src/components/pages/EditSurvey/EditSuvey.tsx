@@ -58,6 +58,7 @@ export default function (props: PropsFromRedux) {
           <Questions
             questions={props.questions}
             setQuestionFieldValue={props.actions.setQuestionFieldValue}
+            editOptionPayload={props.actions.editOptionPayload}
             saveChanges={props.actions.saveChanges}
             createNewOption={props.actions.createNewOption}
           />
@@ -71,6 +72,7 @@ export default function (props: PropsFromRedux) {
 interface QuestionsSection {
   questions: Array<Question>,
   setQuestionFieldValue: (index: number, fieldName: QuestionFieldName, value: string | boolean) => void,
+  editOptionPayload: (questionIndex: number, optionIndex: number, payload: string) => void,
   saveChanges: () => void,
   createNewOption: (questionId: number | string) => void
 }
@@ -91,7 +93,7 @@ function Questions(props: QuestionsSection) {
               saveChanges={props.saveChanges}
             />
             <div>
-              {question.options.map((option) => (
+              {question.options.map((option, optionIndex) => (
                 <Grid container
                       // @ts-ignore
                       key={option.id}
@@ -110,7 +112,13 @@ function Questions(props: QuestionsSection) {
                     }
                   </Grid>
                   <Grid item xs={11}>
-                    <OptionForm option={option}/>
+                    <OptionForm
+                      option={option}
+                      questionIndex={index}
+                      optionIndex={optionIndex}
+                      editOptionPayload={props.editOptionPayload}
+                      saveChanges={props.saveChanges}
+                    />
                   </Grid>
                 </Grid>
               ))}

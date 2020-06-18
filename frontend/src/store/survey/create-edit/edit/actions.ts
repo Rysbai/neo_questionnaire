@@ -7,7 +7,7 @@ import {
 import {
   CREATE_NEW_OPTION_FAIL,
   CREATE_NEW_OPTION_SUCCESS,
-  CREATE_NEW_QUESTION_SUCCESS, InitialOption,
+  CREATE_NEW_QUESTION_SUCCESS, EDIT_OPTION_PAYLOAD, EditOptionPayloadAction, InitialOption,
   InitialQuestion, QUESTION_FIELD_NAME_ACTION_TYPE, QuestionFieldName,
   RETRIEVE_SURVEY_FAIL,
   RETRIEVE_SURVEY_SUCCESS,
@@ -154,3 +154,11 @@ export const createNewOption = (questionId: string | number): ThunkAction<void, 
       })
     })
 };
+
+
+export const editOptionPayload = (questionIndex: number, optionIndex: number, payload: string): EditOptionPayloadAction => ({
+  type: EDIT_OPTION_PAYLOAD,
+  questionIndex,
+  optionIndex,
+  payload
+});
