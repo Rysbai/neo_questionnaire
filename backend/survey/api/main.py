@@ -2,7 +2,7 @@ import graphene
 from graphql import GraphQLError
 
 from survey.models.survey import Survey as SurveyORM
-from survey.api.survey import CreateSurvey, EditSurvey, CreateQuestion, EditQuestion, CreateOption
+from survey.api.survey import CreateSurvey, EditSurvey, CreateQuestion, EditQuestion, CreateOption, SaveUserAnswer
 from survey.api.types import Survey, User
 from survey.api.user import Authorize
 from survey.services.decorators import auth_required
@@ -15,6 +15,7 @@ class Mutations(graphene.ObjectType):
     create_option = CreateOption.Field()
     edit_survey = EditSurvey.Field()
     edit_question = EditQuestion.Field()
+    save_user_answer = SaveUserAnswer.Field()
 
 
 class Query(graphene.ObjectType):
@@ -36,13 +37,13 @@ class Query(graphene.ObjectType):
             title=survey.title,
             description=survey.description,
             is_anonymous=survey.is_anonymous,
-            is_public=survey.is_public,
+            is_open=survey.is_open,
             is_actual=survey.is_actual
         )
 
     @auth_required
     def resolve_survey_by_code(self, info, code, **kwargs):
-        survey = SurveyORM.query.filter(SurveyORM.code == code).first()
+        survey = SurveyORM.query.filter(SurveyORM.code == code, SurveyORM.is_open == True).first()
 
         if not survey:
             raise GraphQLError('survey.does.not.exists')
@@ -54,13 +55,14 @@ class Query(graphene.ObjectType):
             title=survey.title,
             description=survey.description,
             is_anonymous=survey.is_anonymous,
-            is_public=survey.is_public,
+            is_open=survey.is_open,
             is_actual=survey.is_actual
         )
 
     @auth_required
     def resolve_surveys(self, info, page=1, per_page=10, **kwargs):
-        pagination = SurveyORM.query.filter(SurveyORM.is_actual == True).paginate(page=page, per_page=per_page)
+        pagination = SurveyORM.query.filter(SurveyORM.is_actual == True, SurveyORM.is_open == True)\
+            .paginate(page=page, per_page=per_page)
         surveys = []
         for survey in pagination.items:
             surveys.append(
@@ -69,7 +71,8 @@ class Query(graphene.ObjectType):
                     title=survey.title,
                     description=survey.description,
                     is_anonymous=survey.is_anonymous,
-                    is_actual=survey.is_actual
+                    is_actual=survey.is_actual,
+                    is_open=survey.is_open
                 )
             )
 

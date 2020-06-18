@@ -3,7 +3,7 @@ import {
   DESCRIPTION,
   IS_ANONYMOUS,
   TITLE,
-  FieldNameType
+  FieldNameType, IS_OPEN
 } from "./types";
 
 
@@ -14,6 +14,7 @@ export default function (typePrefix: string) {
     title: getActionType(SET_FIELD_VALUE + TITLE),
     description: getActionType(SET_FIELD_VALUE + DESCRIPTION),
     isAnonymous: getActionType(SET_FIELD_VALUE + IS_ANONYMOUS),
+    isOpen: getActionType(SET_FIELD_VALUE + IS_OPEN)
   };
 
 

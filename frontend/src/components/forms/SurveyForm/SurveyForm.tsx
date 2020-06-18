@@ -62,6 +62,20 @@ export default function (props: SurveyFormProps) {
         <FormControlLabel
           control={
             <Checkbox
+              checked={props.isOpen}
+              onChange={({target}) => props.setSurveyFieldValue('isOpen', target.checked)}
+              name="isOpen"
+              onBlur={props.isEdit && props.onSubmit}
+              color="primary"
+            />
+          }
+          label="Открытый опросник(Пользователи могут голосовать без кода)"
+        />
+      </Box>
+      <Box className={classes.miniSection}>
+        <FormControlLabel
+          control={
+            <Checkbox
               checked={props.isAnonymous}
               onChange={({target}) => props.setSurveyFieldValue('isAnonymous', target.checked)}
               name="isAnonymous"
@@ -72,16 +86,16 @@ export default function (props: SurveyFormProps) {
           label="Анонимный опросник"
         />
       </Box>
-        {!props.isEdit && (
-            <Box className={classes.miniSection}>
-              <Button
-              className={classes.miniSection}
-              variant="contained"
-              color="secondary"
-              onClick={props.onSubmit}
-            >Далее</Button>
-          </Box>
-        )}
+      {!props.isEdit && (
+          <Box className={classes.miniSection}>
+            <Button
+            className={classes.miniSection}
+            variant="contained"
+            color="secondary"
+            onClick={props.onSubmit}
+          >Далее</Button>
+        </Box>
+      )}
     </div>
   )
 }

@@ -5,6 +5,7 @@ export const SET_FIELD_VALUE = "SET_";
 export const TITLE = "TITLE";
 export const DESCRIPTION = "DESCRIPTION";
 export const IS_ANONYMOUS = "IS_ANONYMOUS";
+export const IS_OPEN = "IS_OPEN";
 
 
 export interface SetFieldValueAction {
@@ -31,7 +32,7 @@ export interface BaseCreateEditSurveyState extends Survey {
 
 export type CreateOrEditSurveyState = CreateSurveyState;
 
-export type FieldNameType = 'title' | 'description' | 'isAnonymous';
+export type FieldNameType = 'title' | 'description' | 'isAnonymous' | 'isOpen';
 
 
 

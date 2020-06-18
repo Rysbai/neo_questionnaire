@@ -35,6 +35,7 @@ export async function retrieveSurvey(surveyId: string) {
         description,
         isAnonymous,
         isActual,
+        isOpen,
         questions {
           id,
           surveyId,
@@ -66,14 +67,16 @@ export async function editSurvey(survey: Survey): Promise<string> {
       $title: String!, 
       $description: String!, 
       $isAnonymous: Boolean!, 
-      $isActual: Boolean!  
+      $isActual: Boolean!,
+      $isOpen: Boolean!
     ){
       editSurvey(
         surveyId: $id, 
         title: $title, 
         description: $description, 
         isAnonymous: $isAnonymous, 
-        isActual: $isActual
+        isActual: $isActual,
+        isOpen: $isOpen
       ){
         message
       }

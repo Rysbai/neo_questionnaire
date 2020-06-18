@@ -15,8 +15,9 @@ class Survey(Model, SurrogatePK):
     title = db.Column(db.String)
     description = db.Column(db.String)
     is_anonymous = db.Column(db.Boolean)
-    is_public = db.Column(db.Boolean, default=False)
-    is_actual = db.Column(db.Boolean, default=True)
+    is_open = db.Column(db.Boolean, default=False)
+    is_actual = db.Column(db.Boolean, default=False)
+    #  Todo implement showing code and editing field is_public.(Update Survey interface in front)
 
 
 class Question(Model, SurrogatePK):
@@ -50,3 +51,23 @@ class UserAnswer(Model, SurrogatePK):
                           backref=backref('answers', uselist=True, cascade='delete,all'))
     user_id = reference_col(User.__tablename__, nullable=False)
     voted_at = db.Column(db.DateTime)
+
+    @staticmethod
+    def get_or_create(option_id: int, user_id: int) -> 'UserAnswer':
+        answer = UserAnswer.query.filter(option_id=option_id, user_id=user_id).first()
+
+        if answer:
+            return answer
+
+        return UserAnswer.create(
+            option_id=option_id,
+            user_id=user_id
+        )
+
+    @staticmethod
+    def delete_user_answers_for_question(question_id: int, user_id: int) -> bool:
+        answers = UserAnswer.query.filter(UserAnswer.user_id == user_id, UserAnswer.option.has(question_id=question_id))
+
+        answers.delete(synchronize_session=False)
+
+        return True

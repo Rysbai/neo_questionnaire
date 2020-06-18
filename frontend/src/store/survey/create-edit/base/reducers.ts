@@ -7,7 +7,7 @@ import {
 
   BaseCreateEditSurveyState,
   CreateOrEditSurveyState,
-  SetFieldValueAction,
+  SetFieldValueAction, IS_OPEN,
 } from "./types";
 
 
@@ -17,6 +17,7 @@ export const BASE_INITIAL_STATE : BaseCreateEditSurveyState = {
   description: "",
   isAnonymous: true,
   isActual: false,
+  isOpen: false,
   titleError: "",
   descriptionError: "",
   changesStatus: CHANGES_STATUS.__saved,
@@ -48,6 +49,11 @@ export function getBaseCreateEditSurveyReducers(typePrefix: string){
         isAnonymous: action.value,
         changesStatus: CHANGES_STATUS.__not_saved
       }),
-
+    [getAction(SET_FIELD_VALUE + IS_OPEN)]:
+      (state: CreateOrEditSurveyState, action: SetFieldValueAction) => ({
+        ...state,
+        isOpen: action.value,
+        changesStatus: CHANGES_STATUS.__not_saved
+      }),
   }
 }

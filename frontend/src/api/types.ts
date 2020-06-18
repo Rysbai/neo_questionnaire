@@ -15,7 +15,8 @@ export interface Survey {
   title: string,
   description: string,
   isAnonymous: boolean,
-  isActual: boolean
+  isActual: boolean,
+  isOpen: boolean,
   questions: Array<Question>
 }
 
