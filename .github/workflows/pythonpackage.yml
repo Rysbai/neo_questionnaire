@@ -35,12 +35,11 @@ jobs:
       - name: Run tests
         run: |
           pytest backend
-
         env:
-          SECRET_KEY=gergergerg
-          DEBUG=True
-          DB_NAME=neo_que
-          DB_USER=neo
-          DB_PASSWORD=quest
-          DB_URL=localhost
-          DB_PORT=5432
+          SECRET_KEY: gergergerg
+          DEBUG: True
+          DB_NAME: neo_que
+          DB_USER: neo
+          DB_PASSWORD: quest
+          DB_URL: localhost
+          DB_PORT: 5432
