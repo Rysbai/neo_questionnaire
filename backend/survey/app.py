@@ -1,15 +1,14 @@
 from flask import Flask
 
-from survey.configs import Config
 from survey.extensions import db, migrate, cors
 from survey.api.main import schema
 from survey.api.view import MainGraphQLView
 
 
-def create_app():
+def create_app(config):
     app = Flask(__name__)
     app.url_map.strict_slashes = False
-    app.config.from_object(Config)
+    app.config.from_object(config)
 
     register_extensions(app)
     register_graphql(app)

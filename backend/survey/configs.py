@@ -23,3 +23,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI = f'postgres+psycopg2://{DB_CONFIG["DB_USER"]}:{DB_CONFIG["DB_PASSWORD"]}' \
                               f'@{DB_CONFIG["DB_URL"]}:{DB_CONFIG["DB_PORT"]}/{DB_CONFIG["DB_NAME"]}'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+class TestConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'sqlite://'

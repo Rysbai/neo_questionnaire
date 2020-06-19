@@ -1,0 +1,44 @@
+name: Python package
+
+on: [push]
+  build:
+
+    runs-on: ubuntu-16.04
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get install libpq-dev
+          python -m pip install --upgrade pip
+          pip install -r backend/requirenments.txt
+
+      - name: Lint with flaske8
+        run: |
+          pip install flake8
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Run tests
+        run: |
+          pytest backend
+
+        env:
+          SECRET_KEY=gergergerg
+          DEBUG=True
+          DB_NAME=neo_que
+          DB_USER=neo
+          DB_PASSWORD=quest
+          DB_URL=localhost
+          DB_PORT=5432
