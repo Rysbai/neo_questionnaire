@@ -17,8 +17,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install Packages
-        run: cd frontend
-             npm install
+        run: npm install --prefix frontend/
       - name: Build page
-        run: cd frontend
-             npm run build
+        run: npm install --prefix frontend/
