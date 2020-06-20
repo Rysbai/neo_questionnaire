@@ -1,6 +1,8 @@
 name: Just check if project can built
 
 on: [push]
+
+jobs:
   build:
     runs-on: ubuntu-16.04
     strategy:
