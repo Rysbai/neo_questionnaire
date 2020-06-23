@@ -2,7 +2,7 @@ import graphene
 from graphene import InputObjectType
 from graphene_sqlalchemy import SQLAlchemyObjectType
 
-from survey.models import Question as QuestionORM, User as UserORM, Option as OptionORM
+from survey.models import Question as QuestionORM, User as UserORM, Option as OptionORM, UserAnswer
 from survey.models import SurveyORM
 
 
@@ -81,3 +81,37 @@ class OptionInput(InputObjectType):
     question_id = graphene.ID(required=False)
     payload = graphene.String(required=True)
     allow_multiple_choice = graphene.Boolean(default=False)
+
+
+class OptionResult(graphene.ObjectType):
+    option_id = graphene.ID()
+    payload = graphene.String()
+    answers = graphene.Int()
+
+    def resolve_answers(self, info, *args, **kwargs):
+        answers_count = UserAnswer.query.filter(UserAnswer.option_id == self.option_id).count()
+
+        return answers_count
+
+    def resolve_payload(self, info, *args, **kwargs):
+        return self.payload
+
+
+class QuestionResult(graphene.ObjectType):
+    id = graphene.ID()
+    payload = graphene.String()
+    option_results = graphene.List(OptionResult)
+
+    def resolve_option_results(self, info, *args, **kwargs):
+        queryset = OptionORM.query.filter(OptionORM.question_id == self.id)
+
+        option_results = []
+        for option in queryset:
+            option_results.append(
+                OptionResult(
+                    option_id=option.id,
+                    payload=option.payload
+                )
+            )
+
+        return option_results

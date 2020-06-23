@@ -4,6 +4,7 @@ import styles from "./styles";
 import {AppBar, CircularProgress, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Check, PlayArrow, Save, Visibility} from "@material-ui/icons";
 import {CHANGES_STATUS} from "../../../store/survey/create-edit/base/types";
+import {Link} from "react-router-dom";
 
 
 interface AppBarProps {
@@ -13,7 +14,7 @@ interface AppBarProps {
 
 export default function (props: AppBarProps) {
   const classes = styles();
-
+  console.log(props.surveyId);
   return (
     <div className={classes.root}>
       <AppBar position="fixed">
@@ -53,13 +54,15 @@ function Status(props: AppBarProps) {
           <div className={classes.verticalDivider}/>
         </Grid>
         <Grid item>
-          <IconButton aria-controls="menu-appbar"
-                      title="Start survey"
-                      aria-haspopup="true"
-                      className={classes.toolIcons}
-          >
-            <PlayArrow/>
-          </IconButton>
+          <Link to={`/my-surveys/${props.surveyId}/results`}>
+            <IconButton aria-controls="menu-appbar"
+                        title="Start survey"
+                        aria-haspopup="true"
+                        className={classes.toolIcons}
+            >
+              <PlayArrow/>
+            </IconButton>
+          </Link>
         </Grid>
       </Grid>
     </Paper>

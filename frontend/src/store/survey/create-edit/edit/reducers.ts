@@ -140,7 +140,7 @@ function addNewOption(action: CreateNewOptionSuccessAction, questions: Array<Que
   const questionId = action.option.questionId;
 
   return questions.map(question => {
-    if (question.id == questionId){
+    if (question.id === questionId){
       question.options.push(action.option);
     }
     return question

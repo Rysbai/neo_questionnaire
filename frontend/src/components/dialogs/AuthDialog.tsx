@@ -16,7 +16,7 @@ export default function (props: PropsFromRedux) {
 
   React.useEffect(() => {
     props.actions.getLoggedUser();
-  }, []);
+  }, [props.actions]);
 
   return (
       <Dialog open={!props.loggedUser.id}>

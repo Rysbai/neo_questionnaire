@@ -8,6 +8,7 @@ Flask==1.1.2
 Flask-Cors==3.0.8
 Flask-GraphQL==2.0.1
 Flask-Migrate==2.5.3
+Flask-SocketIO==4.3.0
 Flask-SQLAlchemy==2.4.1
 graphene==2.1.8
 graphene-sqlalchemy==2.2.2
@@ -31,6 +32,8 @@ pytest==5.4.3
 python-dateutil==2.8.1
 python-dotenv==0.13.0
 python-editor==1.0.4
+python-engineio==3.13.0
+python-socketio==4.6.0
 Rx==1.6.1
 singledispatch==3.4.0.3
 six==1.14.0

@@ -3,7 +3,7 @@ import {RootState} from "./index";
 
 export interface BasicFailAction {
   type: string,
-  error: string
+  error: Error | null
 }
 
 export type GetState = () => RootState

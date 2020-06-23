@@ -156,7 +156,6 @@ class EditQuestion(graphene.Mutation):
             payload=payload,
             allow_multiple_answer=allow_multiple_answer
         )
-        print(options)
         EditQuestion._update_options(options)
 
         return EditQuestion(message='ok')

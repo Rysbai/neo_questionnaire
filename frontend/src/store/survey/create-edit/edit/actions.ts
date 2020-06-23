@@ -15,7 +15,7 @@ import {
   SAVE_CHANGES_IN_PROGRESS,
   SAVE_CHANGES_SUCCESS
 } from "./types";
-import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {ThunkAction} from "redux-thunk";
 import {RootState} from "../../../index";
 import {Action} from "redux";
 
@@ -76,7 +76,7 @@ export const saveChanges = (): ThunkAction<void, RootState, unknown, Action<stri
 };
 
 
-export const saveQuestionChanges = async (dispatch: any, getState: GetState): Promise<any> => {
+const saveQuestionChanges = async (dispatch: Dispatch, getState: GetState): Promise<any> => {
   const state = getState();
   const {unsavedQuestions: unsavedQuestionIndexes, questions} = state.editSurvey;
 
@@ -95,7 +95,7 @@ export const saveQuestionChanges = async (dispatch: any, getState: GetState): Pr
 
 
 
-export const createNewQuestion = (): ThunkAction<void, RootState, unknown, Action<string>> => (dispatch: any, getState: any): void => {
+export const createNewQuestion = (): ThunkAction<void, RootState, unknown, Action<string>> => (dispatch: Dispatch, getState: GetState): void => {
   dispatch({
     type: SAVE_CHANGES_IN_PROGRESS
   });

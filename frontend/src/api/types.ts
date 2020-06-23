@@ -1,3 +1,5 @@
+import {List} from "@material-ui/core";
+
 export interface User {
   id: string | number | null,
   name: string,
@@ -34,4 +36,15 @@ export interface Option {
   id: string | number | null,
   questionId: string | number | null,
   payload: string
+}
+
+
+export interface OptionResult extends Option {
+  answers: number
+}
+
+export interface QuestionResult {
+  id: string,
+  payload: string,
+  optionResults: Array<OptionResult>
 }

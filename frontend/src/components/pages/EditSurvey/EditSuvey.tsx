@@ -19,12 +19,12 @@ export default function (props: PropsFromRedux) {
 
   React.useEffect(() => {
     props.actions.retrieveSurvey(surveyId);
-  }, []);
+  }, [props.actions, surveyId]);
 
   return (
     <div>
       <EditSurveyToolBar changesStatus={props.changesStatus}
-                         surveyId={props.surveyId}/>
+                         surveyId={surveyId}/>
       <Container maxWidth="sm"
                  className={classes.container}>
         <Card>

@@ -1,4 +1,4 @@
-import {Option, Question, Survey} from "./types";
+import {Option, Question, QuestionResult, Survey} from "./types";
 import {authorizedGqClient} from "./clients";
 
 
@@ -20,9 +20,9 @@ export async function createSurvey(survey: Survey) : Promise<Survey> {
 
   const response = await authorizedGqClient().request(query, {...survey});
 
-  return {
-    ...response.createSurvey.survey
-  }
+  if (response.createSurvey && response.createSurvey.survey) return response.createSurvey.survey;
+
+  throw Error(response.error)
 }
 
 
@@ -54,9 +54,9 @@ export async function retrieveSurvey(surveyId: string) {
 
   const response = await authorizedGqClient().request(query, {surveyId});
 
-  return {
-    ...response.survey
-  }
+  if(response.survey) return response.survey;
+  throw Error(response.error)
+
 }
 
 
@@ -87,7 +87,7 @@ export async function editSurvey(survey: Survey): Promise<string> {
 
   if (response.editSurvey && response.editSurvey.message) return response.editSurvey.message;
 
-  throw "Проблема при сохранении изменений."
+  throw Error("Проблема при сохранении изменений.")
 }
 
 
@@ -126,7 +126,7 @@ export async function createNewQuestion(question: Question): Promise<Question> {
 
   if (response.createQuestion && response.createQuestion.question) return response.createQuestion.question;
 
-  throw 'Проблема при создании вопроса.'
+  throw Error('Проблема при создании вопроса.')
 }
 
 
@@ -153,7 +153,7 @@ export async function editQuestion(question: Question): Promise<string> {
 
   if (response.editQuestion && response.editQuestion && response.editQuestion.message) return response.editQuestion.message;
 
-  throw 'Проблема при сохранении изменений вопроса'
+  throw Error('Проблема при сохранении изменений вопроса')
 }
 
 
@@ -181,5 +181,29 @@ export async function createNewOption(option: Option): Promise<Option> {
 
   if (response.createOption && response.createOption.option) return response.createOption.option;
 
-  throw 'Проблема при добавлении ответа'
+  throw Error('Проблема при добавлении ответа')
+}
+
+
+
+export async function retrieveSurveyResults(surveyId: string): Promise<Array<QuestionResult>> {
+  const query = `
+    query GetSurveyResults ($surveyId: ID!) {
+      surveyResults (surveyId: $surveyId) {
+        id,
+        payload,
+        optionResults {
+          optionId,
+          payload,
+          answers
+        }
+      }
+    }
+  `;
+
+  const response = await authorizedGqClient().request(query, {surveyId});
+
+  if (response.surveyResults) return response.surveyResults;
+
+  throw Error(response.error)
 }

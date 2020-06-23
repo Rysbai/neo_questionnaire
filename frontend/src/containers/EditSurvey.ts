@@ -1,4 +1,3 @@
-import EditSurvey from "../components/pages/EditSurvey";
 import {bindActionCreators} from "redux";
 import {connect as reduxConnect, ConnectedProps} from "react-redux";
 import {RootState} from "../store";
@@ -12,6 +11,7 @@ import {
 import getCreateEditSurveyBaseActions from "../store/survey/create-edit/base/actions";
 import {EDIT_SURVEY_TYPE_PREFIX} from "../store/survey/create-edit/edit/types";
 
+import EditSurvey from "../components/pages/EditSurvey";
 
 const mapStateToProps = (state: RootState) => ({
   ...state.auth,
