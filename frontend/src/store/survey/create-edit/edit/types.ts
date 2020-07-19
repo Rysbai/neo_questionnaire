@@ -12,6 +12,7 @@ export const SET_QUESTION_FIELD_VALUE = `${EDIT_SURVEY_TYPE_PREFIX}/SET_QUESTION
 export const CREATE_NEW_OPTION_SUCCESS = `${EDIT_SURVEY_TYPE_PREFIX}/CREATE_NEW_OPTION_SUCCESS`;
 export const CREATE_NEW_OPTION_FAIL = `${EDIT_SURVEY_TYPE_PREFIX}/CREATE_NEW_OPTION_FAIL`;
 export const EDIT_OPTION_PAYLOAD = `${EDIT_SURVEY_TYPE_PREFIX}/EDIT_OPTION_PAYLOAD`;
+export const PUBLISH_SURVEY_FAIL = `${EDIT_SURVEY_TYPE_PREFIX}/PUBLISH_SURVEY_FAIL`;
 
 
 export const InitialOption: Option = {
@@ -68,7 +69,8 @@ export interface EditSurveyState extends BaseCreateEditSurveyState {
   saveError: string,
   retrieveSurveyError: string,
   isEdit: true,
-  unsavedQuestions: Array<number>
+  unsavedQuestions: Array<number>,
+  publishSurveyFail: Error | null
 }
 
 

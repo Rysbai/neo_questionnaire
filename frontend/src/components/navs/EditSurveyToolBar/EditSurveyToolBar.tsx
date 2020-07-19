@@ -9,7 +9,8 @@ import {Link} from "react-router-dom";
 
 interface AppBarProps {
   surveyId: number | string,
-  changesStatus: string
+  changesStatus: string,
+  publishSurvey: () => void
 }
 
 export default function (props: AppBarProps) {
@@ -35,7 +36,9 @@ function Status(props: AppBarProps) {
       <Grid container alignItems="center" justify="space-evenly">
         <Grid item>
           <ChangesStatusIcon surveyId={props.surveyId}
-                             changesStatus={props.changesStatus}/>
+                             changesStatus={props.changesStatus}
+                             publishSurvey={props.publishSurvey}
+          />
         </Grid>
         <Grid item>
           <div className={classes.verticalDivider}/>
@@ -53,15 +56,14 @@ function Status(props: AppBarProps) {
           <div className={classes.verticalDivider}/>
         </Grid>
         <Grid item>
-          <Link to={`/my-surveys/${props.surveyId}/results`}>
-            <IconButton aria-controls="menu-appbar"
-                        title="Start survey"
-                        aria-haspopup="true"
-                        className={classes.toolIcons}
-            >
-              <PlayArrow/>
-            </IconButton>
-          </Link>
+          <IconButton aria-controls="menu-appbar"
+                      title="Start survey"
+                      aria-haspopup="true"
+                      className={classes.toolIcons}
+                      onClick={props.publishSurvey}
+          >
+            <PlayArrow/>
+          </IconButton>
         </Grid>
       </Grid>
     </Paper>

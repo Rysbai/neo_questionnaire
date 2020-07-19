@@ -196,6 +196,22 @@ class CreateOption(graphene.Mutation):
         return CreateOption(message='ok', option=option)
 
 
+class PublishSurvey(graphene.Mutation):
+    class Arguments:
+        survey_id = graphene.ID()
+
+    message = graphene.String()
+
+    def mutate(self, info, survey_id, **kwargs):
+        survey = SurveyORM.get_by_id(survey_id)
+        if not survey:
+            raise GraphQLError('Survey not found')
+
+        survey.update(is_actual=True)
+
+        return PublishSurvey(message='ok')
+
+
 class SaveUserAnswer(graphene.Mutation):
     class Arguments:
         user_id = graphene.ID()
@@ -212,5 +228,4 @@ class SaveUserAnswer(graphene.Mutation):
                 user_id=user_id,
                 option_id=option_id
             )
-        # send_message_update_question_results(question_id)
         return SaveUserAnswer(message='ok')

@@ -10,6 +10,8 @@ import {
   CREATE_NEW_QUESTION_SUCCESS,
   CREATE_NEW_OPTION_SUCCESS,
   CREATE_NEW_OPTION_FAIL,
+  EDIT_OPTION_PAYLOAD,
+  PUBLISH_SURVEY_FAIL,
   QUESTION_FIELD_NAME_ACTION_TYPE,
 
   RetrieveSurveySuccessAction,
@@ -20,7 +22,8 @@ import {
   SaveChangesInProgress,
   CreateNewQuestionSuccess,
   SetQuestionFieldAction,
-  CreateNewOptionSuccessAction, EDIT_OPTION_PAYLOAD, EditOptionPayloadAction,
+  CreateNewOptionSuccessAction,
+  EditOptionPayloadAction,
 } from "./types";
 
 
@@ -35,7 +38,8 @@ const INITIAL_STATE: EditSurveyState = {
   saveError: "",
   retrieveSurveyError: "",
   isEdit: true,
-  unsavedQuestions: []
+  unsavedQuestions: [],
+  publishSurveyFail: null
 };
 
 
@@ -91,7 +95,8 @@ export const editSurvey = createReducer({
     ]
   }),
 
-  [QUESTION_FIELD_NAME_ACTION_TYPE('allowMultipleAnswer')]: (state: EditSurveyState, action: SetQuestionFieldAction) => ({
+  [QUESTION_FIELD_NAME_ACTION_TYPE('allowMultipleAnswer')]:
+    (state: EditSurveyState, action: SetQuestionFieldAction) => ({
       ...state,
     changesStatus: CHANGES_STATUS.__not_saved,
     questions: [
@@ -115,6 +120,10 @@ export const editSurvey = createReducer({
   [SAVE_CHANGES_FAIL]: (state: EditSurveyState, action: SaveChangesFailAction): EditSurveyState => ({
     ...state,
     saveError: action.error
+  }),
+  [PUBLISH_SURVEY_FAIL]: (state: EditSurveyState, action: any) => ({
+    ...state,
+    publishSurveyFail: action.error
   })
 }, INITIAL_STATE);
 

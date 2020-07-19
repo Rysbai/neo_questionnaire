@@ -4,7 +4,8 @@ import graphene
 from graphql import GraphQLError
 
 from survey.models.survey import Survey as SurveyORM, Question
-from survey.api.survey import CreateSurvey, EditSurvey, CreateQuestion, EditQuestion, CreateOption, SaveUserAnswer
+from survey.api.survey import CreateSurvey, EditSurvey, CreateQuestion, EditQuestion, CreateOption, SaveUserAnswer, \
+    PublishSurvey
 from survey.api.types import Survey, User, QuestionResult
 from survey.api.user import Authorize
 from survey.services.decorators import auth_required
@@ -13,6 +14,7 @@ from survey.services.decorators import auth_required
 class Mutations(graphene.ObjectType):
     auth = Authorize.Field()
     create_survey = CreateSurvey.Field()
+    publish_survey = PublishSurvey.Field()
     create_question = CreateQuestion.Field()
     create_option = CreateOption.Field()
     edit_survey = EditSurvey.Field()
@@ -84,7 +86,7 @@ class Query(graphene.ObjectType):
 
     @auth_required
     def resolve_survey_results(self, info, survey_id, *args, **kwargs):
-        queryset = Question.query.filter(Question.survey_id==survey_id)
+        queryset = Question.query.filter(Question.survey_id == survey_id)
 
         questions = []
         for question in queryset:

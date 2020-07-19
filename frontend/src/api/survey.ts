@@ -207,3 +207,20 @@ export async function retrieveSurveyResults(surveyId: string): Promise<Array<Que
 
   throw Error(response.error)
 }
+
+
+export async function publishSurveyApi(surveyId: string | number): Promise<string> {
+  const query = `
+    mutation PublishSurvey($surveyId: ID!) {
+      publishSurvey(surveyId: $surveyId) {
+        message
+      }
+    }
+  `;
+
+  const response = await authorizedGqClient().request(query, {surveyId});
+
+  if (response.publishSurvey) return response.publishSurvey.message;
+
+  throw Error(response.error);
+}

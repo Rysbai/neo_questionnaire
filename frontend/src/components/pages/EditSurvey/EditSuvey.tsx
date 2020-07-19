@@ -24,7 +24,9 @@ export default function (props: PropsFromRedux) {
   return (
     <div>
       <EditSurveyToolBar changesStatus={props.changesStatus}
-                         surveyId={surveyId}/>
+                         surveyId={surveyId}
+                         publishSurvey={props.actions.publishSurvey}
+      />
       <Container maxWidth="sm"
                  className={classes.container}>
         <Card>

@@ -3,7 +3,9 @@ import {connect as reduxConnect, ConnectedProps} from "react-redux";
 import {RootState} from "../store";
 import {
   createNewOption,
-  createNewQuestion, editOptionPayload,
+  createNewQuestion,
+  editOptionPayload,
+  publishSurvey,
   retrieveSurvey,
   saveChanges,
   setQuestionFieldValue
@@ -23,6 +25,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   actions: bindActionCreators({
     ...getCreateEditSurveyBaseActions(EDIT_SURVEY_TYPE_PREFIX),
     saveChanges,
+    publishSurvey,
     retrieveSurvey,
     createNewQuestion,
     createNewOption,
@@ -34,6 +37,6 @@ const mapDispatchToProps = (dispatch: any) => ({
 
 const connector = reduxConnect(mapStateToProps, mapDispatchToProps);
 
-export type PropsFromRedux = ConnectedProps<typeof connector>
+export type PropsFromRedux = ConnectedProps<typeof connector>;
 
 export const EditSurveyContainer = connector(EditSurvey);
