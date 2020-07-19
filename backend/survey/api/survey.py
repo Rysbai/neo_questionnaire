@@ -1,6 +1,8 @@
 import graphene as graphene
+from flask_socketio import emit
 from graphql import GraphQLError
 
+from survey.api import main
 from survey.api.types import Survey, Question, Option, OptionInput
 from survey.models import SurveyORM, Question as QuestionORM, Option as OptionORM, UserAnswer
 from survey.services.decorators import auth_required
@@ -196,19 +198,19 @@ class CreateOption(graphene.Mutation):
 
 class SaveUserAnswer(graphene.Mutation):
     class Arguments:
+        user_id = graphene.ID()
         question_id = graphene.ID()
         options = graphene.List(graphene.ID)
 
     message = graphene.String()
 
-    @auth_required
-    def mutate(self, info, logged_user_id, question_id, options, *args, **kwargs):
-        UserAnswer.delete_user_answers_for_question(question_id, user_id=logged_user_id)
+    def mutate(self, info, user_id, question_id, options, *args, **kwargs):
+        UserAnswer.delete_user_answers_for_question(question_id, user_id=user_id)
 
         for option_id in options:
             UserAnswer.create(
-                user_id=logged_user_id,
+                user_id=user_id,
                 option_id=option_id
             )
-
+        # send_message_update_question_results(question_id)
         return SaveUserAnswer(message='ok')

@@ -1,8 +1,9 @@
 import createReducer from "../../utils/base";
 import {
+  QUESTION_RESULT_CHANGE, QuestionResultChange, QuestionResultWithChartData,
   RETRIEVE_SURVEY_INFO_FAIL,
   RETRIEVE_SURVEY_INFO_SUCCESS, RETRIEVE_SURVEY_RESULTS_FAIL, RETRIEVE_SURVEY_RESULTS_SUCCESS,
-  RetrieveSurveyInfoSuccess, RetrieveSurveyResultsSuccess, SET_CHARTS_DATA, SetChartsData,
+  RetrieveSurveyInfoSuccess, RetrieveSurveyResultsSuccess,
   SurveyResultInitialState
 } from "./types";
 import {BasicFailAction} from "../../base_types";
@@ -35,6 +36,12 @@ export const surveyResults = createReducer({
     ...state,
     results: action.results
   }),
+  [QUESTION_RESULT_CHANGE]: (state: SurveyResultInitialState, action: QuestionResultChange): SurveyResultInitialState => ({
+    ...state,
+    results: [
+      ...updateResults(state.results, action.result)
+    ]
+  }),
   [RETRIEVE_SURVEY_INFO_FAIL]: (state: SurveyResultInitialState, action: BasicFailAction): SurveyResultInitialState => ({
     ...state,
     retrieveSurveyError: action.error
@@ -44,3 +51,15 @@ export const surveyResults = createReducer({
     retrieveSurveyResultsError: action.error
   })
 }, INITIAL_STATE);
+
+
+
+function updateResults(results: Array<QuestionResultWithChartData>, updateResult: QuestionResultWithChartData): Array<QuestionResultWithChartData> {
+  const updatedResults = results.map((questionResult):QuestionResultWithChartData => {
+    if (updateResult.id === questionResult.id) {
+      return updateResult
+    }
+    return questionResult;
+  });
+  return updatedResults;
+}

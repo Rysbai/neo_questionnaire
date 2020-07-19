@@ -4,5 +4,5 @@ import config from "../configs";
 
 
 export function connectToSocket(): SocketIOClient.Socket {
-  return io(config.PROXY_URL);
+  return io.connect(config.PROXY_URL + '/update-question-results', {transports: ['websocket']});
 }

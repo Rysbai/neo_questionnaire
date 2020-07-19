@@ -1,3 +1,5 @@
+import json
+
 import graphene
 from graphql import GraphQLError
 
@@ -23,6 +25,7 @@ class Query(graphene.ObjectType):
     survey = graphene.Field(Survey, id=graphene.ID())
     survey_by_code = graphene.Field(Survey, code=graphene.String())
     survey_results = graphene.Field(graphene.List(QuestionResult), survey_id=graphene.ID())
+    question_result = graphene.Field(QuestionResult, id=graphene.ID())
     user = graphene.Field(User)
 
     @auth_required
@@ -93,6 +96,17 @@ class Query(graphene.ObjectType):
             )
 
         return questions
+
+    def resolve_question_result(self, info, id, *args, **kwargs):
+        question = Question.get_by_id(id)
+
+        if not question:
+            raise GraphQLError('question.does.not.exist')
+
+        return QuestionResult(
+            id=question.id,
+            payload=question.payload
+        )
 
 
 schema = graphene.Schema(query=Query, mutation=Mutations)

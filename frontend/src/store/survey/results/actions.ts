@@ -1,19 +1,19 @@
 import {ThunkAction} from "redux-thunk";
-import {Dispatch} from "../../base_types";
+import {Dispatch, GetState} from "../../base_types";
 import {RootState} from "../../index";
 import {Action} from "redux";
 
 import {retrieveSurvey, retrieveSurveyResults} from "../../../api/survey";
 import {OptionResult, QuestionResult, Survey} from "../../../api/types";
 import {
-  ChartData, ChartItemData,
+  ChartData, ChartItemData, CONNECT_TO_SOCKET_SUCCESS, QUESTION_RESULT_CHANGE,
   QuestionResultWithChartData,
   RETRIEVE_SURVEY_INFO_FAIL,
   RETRIEVE_SURVEY_INFO_SUCCESS,
   RETRIEVE_SURVEY_RESULTS_FAIL,
   RETRIEVE_SURVEY_RESULTS_SUCCESS,
   RetrieveSurveyResultsSuccess,
-  SET_CHARTS_DATA
+  SOCKET_DISCONNECTED
 } from "./types";
 import {connectToSocket} from "../../../api/socket";
 import {CHARS} from "../../utils/common";
@@ -22,6 +22,7 @@ import {CHARS} from "../../utils/common";
 export const setUpPage = (surveyId: string): ThunkAction<void, RootState, unknown, Action<string>> => (dispatch: Dispatch): void => {
 
   dispatch(retrieveSurveyWithResults(surveyId));
+  dispatch(setUpSocket(surveyId));
 };
 
 
@@ -57,7 +58,6 @@ export const retrieveSurveyWithResults = (surveyId: string):
       dispatch(data);
     })
     .catch(error => {
-      console.log(error);
       dispatch({
         type: RETRIEVE_SURVEY_RESULTS_FAIL,
         error
@@ -91,13 +91,36 @@ function getChartItemData(option: OptionResult, index: number): ChartItemData {
   }
 }
 
-export const setUpSocket = (): ThunkAction<void, RootState, unknown, Action<string>> => (dispatch: Dispatch): void => {
+export const setUpSocket = (surveyId: string): ThunkAction<void, RootState, unknown, Action<string>> => (dispatch: Dispatch): void => {
   const socket = connectToSocket();
-  socket.on('connected', function () {
 
+
+  socket.on('connect', function () {
+
+    socket.send('question_update', 'bla bla bla');
+    dispatch({
+      type: CONNECT_TO_SOCKET_SUCCESS
+    })
   });
-  socket.on('question-result-change', function (questionResult: QuestionResult) {
 
+  socket.on('my response', function (args: any) {
+    console.log(args)
+  });
+  socket.on('disconnect', function () {
+    dispatch({
+      type: SOCKET_DISCONNECTED
+    })
+  });
+
+  socket.on('question-result-change', function (questionResult: QuestionResult) {
+    const result =  {
+      ...questionResult,
+      chartData: getOptionChartData(questionResult.optionResults)
+    };
+    dispatch({
+      type: QUESTION_RESULT_CHANGE,
+      result
+    })
   })
 };
 

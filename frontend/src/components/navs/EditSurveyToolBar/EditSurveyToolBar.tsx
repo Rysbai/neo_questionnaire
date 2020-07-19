@@ -14,7 +14,6 @@ interface AppBarProps {
 
 export default function (props: AppBarProps) {
   const classes = styles();
-  console.log(props.surveyId);
   return (
     <div className={classes.root}>
       <AppBar position="fixed">
