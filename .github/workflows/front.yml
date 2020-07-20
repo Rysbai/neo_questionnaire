@@ -5,20 +5,12 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-16.04
-    strategy:
-      max-parallel: 4
-      matrix:
-        node-version: [12.x]
 
     steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install Packages
-        run: npm install --prefix frontend/
-      - name: Build page
-        run: npm run build --prefix frontend/
-        env:
-          REACT_APP_PROXY_URL: http://192.168.31.123:5000
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - run: cd frontend && npm install
+    - run: cd frontend && npm run build --if-present
