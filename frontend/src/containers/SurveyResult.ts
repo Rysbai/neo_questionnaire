@@ -2,18 +2,20 @@ import {bindActionCreators} from "redux";
 import {connect as reduxConnect, ConnectedProps} from "react-redux";
 import {RootState} from "../store";
 import SurveyResult from "../components/pages/SurveyResult/SurveyResult";
-import {setUpPage} from "../store/survey/results/actions";
+import {copyCode, setUpPage} from "../store/survey/results/actions";
 
 
 const mapStateToProps = (state: RootState) => ({
   loggedUser: state.auth,
+  notifications: state.notifications,
   ...state.surveyResults
 });
 
 
 const mapDispatchToProps = (dispatch: any) => ({
   actions: bindActionCreators({
-    setUpPage
+    setUpPage,
+    copyCode
   }, dispatch)
 });
 

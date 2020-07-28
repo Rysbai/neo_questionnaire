@@ -6,9 +6,9 @@ import {appHistory} from "../../../../index";
 
 export const createSurvey = () => (dispatch: any, getState: any) : void => {
   const state : RootState = getState();
-  const {title, description, isAnonymous, isActual, isOpen} = state.createSurvey;
+  const {title, description, code, isAnonymous, isActual, isOpen} = state.createSurvey;
 
-  gqlCreateSurvey({id: undefined, title, description, isAnonymous, isActual, isOpen, questions: []})
+  gqlCreateSurvey({id: undefined, title, description, code, isAnonymous, isActual, isOpen, questions: []})
     .then((survey) => {
       dispatch({
         type: RESET_STATE

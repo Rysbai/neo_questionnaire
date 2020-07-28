@@ -15,6 +15,7 @@ const INITIAL_STATE: SurveyResultInitialState = {
     id: "",
     title: "",
     description: "",
+    code: "",
     questions: [],
     isAnonymous: false,
     isActual: true,

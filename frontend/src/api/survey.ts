@@ -33,6 +33,7 @@ export async function retrieveSurvey(surveyId: string) {
         id,
         title,
         description,
+        code,
         isAnonymous,
         isActual,
         isOpen,

@@ -1,5 +1,6 @@
 import React from 'react'
 import {createStore, applyMiddleware} from "redux";
+
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from "redux-thunk";
 import { ThemeProvider } from '@material-ui/core/styles';

@@ -15,6 +15,7 @@ export const BASE_INITIAL_STATE : BaseCreateEditSurveyState = {
   id: "",
   title: "",
   description: "",
+  code: "",
   isAnonymous: true,
   isActual: false,
   isOpen: false,

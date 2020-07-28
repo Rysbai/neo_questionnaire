@@ -17,7 +17,6 @@ class Survey(Model, SurrogatePK):
     is_anonymous = db.Column(db.Boolean)
     is_open = db.Column(db.Boolean, default=False)
     is_actual = db.Column(db.Boolean, default=False)
-    #  Todo implement showing code and editing field is_public.(Update Survey interface in front)
 
 
 class Question(Model, SurrogatePK):

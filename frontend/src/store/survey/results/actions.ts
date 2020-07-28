@@ -2,7 +2,8 @@ import {ThunkAction} from "redux-thunk";
 import {Dispatch, GetState} from "../../base_types";
 import {RootState} from "../../index";
 import {Action} from "redux";
-
+import copy from "copy-to-clipboard";
+import Notifications from 'react-notification-system-redux';
 import {retrieveSurvey, retrieveSurveyResults} from "../../../api/survey";
 import {OptionResult, QuestionResult, Survey} from "../../../api/types";
 import {
@@ -124,3 +125,13 @@ export const setUpSocket = (surveyId: string): ThunkAction<void, RootState, unkn
   })
 };
 
+export const copyCode = ():ThunkAction<void, RootState, unknown, Action<string>> => (dispatch: Dispatch, getState: GetState): void => {
+  const {surveyResults} = getState();
+
+  copy(surveyResults.survey.code);
+  dispatch(Notifications.success({
+    title: 'Survey code copied!',
+    position: 'tr',
+    autoDismiss: 1,
+  }));
+};

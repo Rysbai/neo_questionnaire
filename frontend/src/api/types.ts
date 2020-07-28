@@ -1,5 +1,3 @@
-import {List} from "@material-ui/core";
-
 export interface User {
   id: string | number | null,
   name: string,
@@ -16,6 +14,7 @@ export interface Survey {
   id: string | number | undefined,
   title: string,
   description: string,
+  code: string,
   isAnonymous: boolean,
   isActual: boolean,
   isOpen: boolean,

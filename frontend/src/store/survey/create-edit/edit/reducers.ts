@@ -148,7 +148,10 @@ function updateUnsavedQuestions(unsavedQuestionIndexes: Array<number>, newIndex:
 function addNewOption(action: CreateNewOptionSuccessAction, questions: Array<Question>): Array<Question> {
   const questionId = action.option.questionId;
   return questions.map(question => {
-    if (question.id == questionId){
+    // @ts-ignore
+    const [first, second] = [parseInt(question.id), parseInt(questionId)];
+
+    if (first === second){
       question.options.push(action.option);
     }
     return question

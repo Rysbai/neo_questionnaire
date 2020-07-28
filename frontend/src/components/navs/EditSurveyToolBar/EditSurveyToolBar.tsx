@@ -4,7 +4,6 @@ import styles from "./styles";
 import {AppBar, CircularProgress, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Check, PlayArrow, Save, Visibility} from "@material-ui/icons";
 import {CHANGES_STATUS} from "../../../store/survey/create-edit/base/types";
-import {Link} from "react-router-dom";
 
 
 interface AppBarProps {
